@@ -1,0 +1,84 @@
+DOUBLE_OR_NOTHING:
+  base:
+    material: IRON_AXE
+    lore:
+    - '&7&oA very powerful yet hard'
+    - '&7&oto manipulate weapon...'
+    - '&7&oBe very careful!'
+    critical-strike-power:
+      base: 850.0
+      spread: 0.02
+      max-spread: 0.06
+    critical-strike-chance:
+      base: 50.0
+      spread: 0.02
+      max-spread: 0.04
+    attack-damage:
+      base: 1.45
+      spread: 0.01
+      max-spread: 0.03
+    attack-speed:
+      base: 1.05
+      spread: 0.02
+      max-spread: 0.05
+    required-level: 10.0
+    enchants:
+      unbreaking: 5
+    hide-enchants: true
+    name: '&b&l&o"Double or Nothing"'
+    gem-sockets:
+    - Red
+    - Uncolored
+    - Green
+    - Blue
+    ability:
+      on-hit:
+        type: SLOW
+        mode: ATTACK
+        cooldown: 30.0
+        duration: 4.0
+        amplifier: 2.0
+    pvp-damage: 12.0
+BRAVE_HALBERD:
+  base:
+    material: IRON_AXE
+    name: §eBrave's Halberd
+    lore:
+      - §7§oNo one knows his true name...
+      - §7§oBut he was so §e§obrave§7§o!
+    attack-damage:
+      base: 14.0
+      scale: 0.1
+      spread: 0.1
+      max-spread: 0.2
+    critical-strike-chance:
+      base: 20.0
+      spread: 0.1
+      max-spread: 0.2
+    critical-strike-power:
+      base: 35.0
+      spread: 0.1
+      max-spread: 0.2
+    weapon-damage: 25.0
+    tier: RARE
+    attack-speed: 1.55
+    pvp-damage: 25.0
+    max-durability: 6540.0
+    gem-sockets:
+      - Cyan
+    ability:
+      ability1:
+        type: HEAVY_CHARGE
+        mode: RIGHT_CLICK
+        damage: 20.0
+        cooldown: 10.0
+        knockback: 2.5
+        stamina: 5.0
+    crafting:
+      shaped:
+        '1':
+          input:
+            - m material steel_ingot 1.0..|v iron_block - 1.0..|m material steel_ingot
+              1.0..
+            - m material steel_ingot 1.0..|v stick - 1.0..|m material steel_ingot 1.0..
+            - v AIR 0 1..|v stick - 1.0..|v AIR 0 1..
