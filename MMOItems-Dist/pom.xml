@@ -45,7 +45,7 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
-
+    
     <!-- Build -->
     <build>
         <!-- Includes default files in the Bukkit module -->

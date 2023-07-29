@@ -1,15 +1,15 @@
-Official repository for MMOItems Premium
+# MMOItems Premium 官方仓库
 
-### Using MMOItems as dependency
-Register the PhoenixDevt repo
-```
+### 使用 MMOItems 作为依赖项
+注册 PhoenixDevt 仓库
+```xml
 <repository>
     <id>phoenix</id>
     <url>https://nexus.phoenixdevt.fr/repository/maven-public/</url>
 </repository>
 ```
-And then add MMOItems-API as dependency
-```
+然后将 MMOItems-API 添加为依赖项
+```xml
 <dependency>
     <groupId>net.Indyuce</groupId>
     <artifactId>MMOItems-API</artifactId>
@@ -17,4 +17,3 @@ And then add MMOItems-API as dependency
     <scope>provided</scope>
 </dependency>
 ```
-

@@ -1,7 +1,7 @@
 
 # Name which will be displayed
 # when opening the station
-name: 'Arcane Forge (#page#/#max#)'
+name: '神秘炼厂 (#page#/#max#)'
 
 # The maximum amount of items in the crafting queue ie. the
 # max number of items players are able to craft simultaneously.
@@ -25,10 +25,10 @@ items:
         material: AIR
     no-recipe:
         material: GRAY_STAINED_GLASS_PANE
-        name: '&aNo Recipe'
+        name: '&a没有配方'
     no-queue-item:
         material: GRAY_STAINED_GLASS_PANE
-        name: '&aNo Item in Queue'
+        name: '&a没有物品在队列中'
 
 # Station recipes
 recipes:
