@@ -17,16 +17,14 @@ fiery:
                 type: burn
                 mode: on_hit
 
-# Lucky modifier which grants more crit chance
+# 提供更多魔法值的奥术修饰符
 lucky:
-    prefix: '&fLucky'
+    prefix: '&f幸运'
     stats:
         critical-strike-chance:
             base: 9
             spread: .1
             max-spread: .3
-
-# Gives more man mana
 arcane:
     suffix: '&f更多魔法值'
     stats:
@@ -63,7 +61,7 @@ swiftness:
         perm-effects:
             speed: 1
 
-# Modifier that makes weapons two-handed but more damage and crit power
+# 使武器成为双手武器，但提供更多伤害和暴击威力的重型修饰符
 heavy:
     prefix: '&f沉重的'
     stats:
@@ -75,7 +73,7 @@ heavy:
             base: 10
             scale: 2
 
-# Elemental modifiers
+# 元素修饰符
 blazing:
     prefix: '&fBlazing'
     stats:
@@ -86,7 +84,7 @@ blazing:
                     spread: .2
                     max-spread: .5
 
-# Love u terraria!
+# 爱你泰拉!
 impending-doom:
     suffix: '&f威迫死亡'
     stats:

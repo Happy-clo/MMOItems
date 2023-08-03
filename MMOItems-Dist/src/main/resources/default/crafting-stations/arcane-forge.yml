@@ -1,25 +1,20 @@
-
-# Name which will be displayed
-# when opening the station
+# 打开炼制站时显示的名称
 name: '神秘炼厂 (#page#/#max#)'
 
-# The maximum amount of items in the crafting queue ie. the
-# max number of items players are able to craft simultaneously.
-# Must be between 1 and 64.
+# 制作队列中的最大物品数量，即玩家能够同时制作的最大物品数量。
+# 必须在1和64之间。
 max-queue-size: 10
 
-# The sound that plays whenever an action is
-# completed in the crafting station.
-# GET SOUND NAMES HERE:
+# 每当在炼制站中完成一个动作时播放的声音。
+# 获取声音名称请查看以下链接:
 # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
 sound: ENTITY_EXPERIENCE_ORB_PICKUP
 
-# This is how the gui looks. You can define your own
-# in crafting-stations/layouts by creating a new
-# file with the name of the file as the id.
+# 这是GUI的外观。您可以在crafting-stations/layouts中定义自己的GUI布局，
+# 创建一个新文件，以文件名作为ID。
 layout: default
 
-# Configure GUI items here
+# 在这里配置GUI中的物品
 items:
     fill:
         material: AIR
@@ -30,7 +25,7 @@ items:
         material: GRAY_STAINED_GLASS_PANE
         name: '&a没有物品在队列中'
 
-# Station recipes
+# 炼制站配方
 recipes:
     magic-essence:
         output:

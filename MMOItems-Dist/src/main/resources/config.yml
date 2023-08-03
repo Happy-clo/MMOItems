@@ -3,14 +3,14 @@ config-version: 8
 
 # 通知玩家 'mmoitems.update-notify' 权限节点，在玩家加入服务器时如果有新的更新可供下载。
 # 修改后需要使用 /reload 命令。
-update-notify: true
+update-notify: false
 
 # 启用/禁用插件遍历整个玩家库存，而不仅限于玩家的盔甲和手持物品。
 # 这个选项对于"Ornament"物品类型是必需的，但可能会导致卡顿和/或占用大量内存。
 iterate-whole-inventory: false
 
 # 当设置为true时，皮肤只能应用于物品一次。
-locked-skins: true
+locked-skins: false
 
 # 从6.9.3开发版开始，MMOItems同时支持多个RPG核心插件。然而，MMOItems需要选择一个特定的插件来连接到级别、职业等功能。
 # 可用的插件:

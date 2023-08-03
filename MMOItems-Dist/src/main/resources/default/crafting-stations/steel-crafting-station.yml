@@ -1,25 +1,20 @@
+# 打开炼制站时显示的名称
+name: '钢铁制作台 (#page#/#max#)'
 
-# Name which will be displayed
-# when opening the station
-name: 'Steel Crafting Station (#page#/#max#)'
-
-# The maximum amount of items in the crafting queue ie. the
-# max number of items players are able to craft simultaneously.
-# Must be between 1 and 64.
+# 制作队列中的最大物品数量，即玩家能够同时制作的最大物品数量。
+# 必须在1和64之间。
 max-queue-size: 10
 
-# The sound that plays whenever an action is
-# completed in the crafting station.
-# GET SOUND NAMES HERE:
+# 每当在炼制站中完成一个动作时播放的声音。
+# 获取声音名称请查看以下链接:
 # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
 sound: ENTITY_EXPERIENCE_ORB_PICKUP
 
-# This is how the gui looks. You can define your own
-# in crafting-stations/layouts by creating a new
-# file with the name of the file as the id.
+# 这是GUI的外观。您可以在crafting-stations/layouts中定义自己的GUI布局，
+# 创建一个新文件，以文件名作为ID。
 layout: default
 
-# Configure GUI items here
+# 在这里配置GUI中的物品
 items:
     fill:
         material: AIR
@@ -30,35 +25,35 @@ items:
         material: GRAY_STAINED_GLASS_PANE
         name: '&a没有物品在队列'
 
-# Station recipes
+# 炼制台配方
 recipes:
     steel-sword:
     
-        # The item which the recipe gives
+        # 配方生成的物品
         output:
             type: SWORD
             id: STEEL_SWORD
             amount: 1
         
-        # Time it takes to craft the item
+        # 制作物品所需的时间
         crafting-time: 3
         
-        # Recipe options
+        # 配方选项
         options:
-            output-item: true # Set to false to give no item
-            silent-craft: false # No sound when item is claimed
-            hide-when-locked: false # Hide in the GUI when conditions are not met
+            output-item: true # 设置为false以不生成物品
+            silent-craft: false # 获得物品时没有声音
+            hide-when-locked: false # 在条件不满足时在GUI中隐藏
         
-        # Conditions to unlock the recipe
+        # 解锁配方的条件
         conditions:
         - level{level=5}
         - permission{list="mmoitems.recipe.steel-sword,mmoitems.recipe.station.steel"}
         
-        # Ingredients needed for the recipe
-        # Available properties: type, id, amount, display, level (optional)
+        # 配方所需的材料
+        # 可用属性: type, id, amount, display, level（可选）
         ingredients:
-        - mmoitem{type=MATERIAL,id=STEEL_INGOT,amount=4,display="Steel Ingot"}
-        - vanilla{type=STICK,amount=2,display="Wooden Stick"}
+        - mmoitem{type=MATERIAL,id=STEEL_INGOT,amount=4,display="钢铁锭"}
+        - vanilla{type=STICK,amount=2,display="木棍"}
     steel-sword-upgrade:
         item:
             type: SWORD

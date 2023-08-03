@@ -1,25 +1,22 @@
-# The size of the gui. Must be
-# between 9 and 54 and must be a multiple of 9.
+# GUI的尺寸，必须在9和54之间，并且必须是9的倍数。
 slots: 54
 
 layout:
 
-  # The slots that display the station's recipes.
+  # 显示站台配方的槽位。
   recipe-slots: [10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25]
 
-  # The slots that display the station's queue slots.
+  # 显示站台队列槽位的槽位。
   queue-slots: [38, 39, 40, 41, 42]
 
-  # The slots that display the arrows to navigate
-  # the station's recipes.
-  # Only shows when it can be used.
+  # 显示用于导航站台配方的箭头的槽位。
+  # 仅在可用时显示。
   recipe-previous-slot: 18
 
   recipe-next-slot: 26
 
-  # The slots that display the arrows to navigate
-  # the station's queue.
-  # Only shows when it can be used.
+  # 显示用于导航站台队列的箭头的槽位。
+  # 仅在可用时显示。
   queue-previous-slot: 37
 
   queue-next-slot: 43
