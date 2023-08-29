@@ -220,7 +220,7 @@
         <dependency>
             <groupId>com.herocraftonline</groupId>
             <artifactId>Heroes</artifactId>
-            <version>1.9.22</version>
+            <version>1.9.22-SNAPSHOTaaee8ba6</version>
             <scope>provided</scope>
         </dependency>
         <!-- ProtocolLib -->
