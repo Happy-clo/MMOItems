@@ -157,7 +157,7 @@
         <dependency>
             <groupId>com.github.RednedEpic</groupId>
             <artifactId>PhatLoots</artifactId>
-            <version>4.2.3</version>
+            <version>5.5.7</version>
             <scope>provided</scope>
         </dependency>
         <!-- placeholderapi -->
