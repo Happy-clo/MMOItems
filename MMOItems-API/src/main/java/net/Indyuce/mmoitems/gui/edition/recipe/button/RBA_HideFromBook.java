@@ -1,11 +1,11 @@
-package net.Indyuce.mmoitems.gui.edition.recipe.rba;
+package net.Indyuce.mmoitems.gui.edition.recipe.button;
 
 import io.lumine.mythic.lib.api.util.AltChar;
 import io.lumine.mythic.lib.api.util.ui.SilentNumbers;
 import io.lumine.mythic.lib.api.util.ItemFactory;
 import net.Indyuce.mmoitems.MMOItems;
-import net.Indyuce.mmoitems.gui.edition.recipe.rba.type.RBA_BooleanButton;
-import net.Indyuce.mmoitems.gui.edition.recipe.gui.RecipeMakerGUI;
+import net.Indyuce.mmoitems.gui.edition.recipe.button.type.RBA_BooleanButton;
+import net.Indyuce.mmoitems.gui.edition.recipe.gui.RecipeEditorGUI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -27,7 +27,7 @@ public class RBA_HideFromBook extends RBA_BooleanButton {
      *
      * @param inv The edition inventory this is a button of
      */
-    public RBA_HideFromBook(@NotNull RecipeMakerGUI inv) { super(inv); }
+    public RBA_HideFromBook(@NotNull RecipeEditorGUI inv) { super(inv); }
 
     public static final String BOOK_HIDDEN = "hidden";
     @NotNull @Override public String getBooleanConfigPath() { return BOOK_HIDDEN; }
@@ -59,9 +59,9 @@ public class RBA_HideFromBook extends RBA_BooleanButton {
         // Done
         return true; }
 
-    @NotNull final ItemStack booleanButton = RecipeMakerGUI.addLore(ItemFactory.of(Material.KNOWLEDGE_BOOK).name("\u00a7cHide from Crafting Book").lore(SilentNumbers.chop(
+    @NotNull final ItemStack booleanButton = ItemFactory.of(Material.KNOWLEDGE_BOOK).name("\u00a7cHide from Crafting Book").lore(SilentNumbers.chop(
             "Even if the crafting book is enabled, this recipe wont be automatically unlocked by players."
-            , 65, "\u00a77")).build(), SilentNumbers.toArrayList(""));
+            , 65, "\u00a77")).build();
 
     @NotNull @Override public ItemStack getBooleanButton() { return booleanButton; }
 
@@ -71,7 +71,7 @@ public class RBA_HideFromBook extends RBA_BooleanButton {
         String input = isEnabled() ? "\u00a7cNO\u00a78, it's hidden." : "\u00a7aYES\u00a78, it's shown.";
 
         // Copy and send
-        return RecipeMakerGUI.addLore(getBooleanButton().clone(),
+        return RecipeEditorGUI.addLore(getBooleanButton().clone(),
                 SilentNumbers.toArrayList(
                 "", "\u00a77Currently in Book? " + input, "",
                         ChatColor.YELLOW + AltChar.listDash + " Right click to generate recipe unlock book.",

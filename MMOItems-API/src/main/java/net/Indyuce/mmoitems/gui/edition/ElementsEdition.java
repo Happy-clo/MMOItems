@@ -5,19 +5,17 @@ import io.lumine.mythic.lib.api.util.AltChar;
 import io.lumine.mythic.lib.element.Element;
 import net.Indyuce.mmoitems.ItemStats;
 import net.Indyuce.mmoitems.MMOItems;
-import net.Indyuce.mmoitems.util.MMOUtils;
 import net.Indyuce.mmoitems.api.edition.StatEdition;
 import net.Indyuce.mmoitems.api.item.template.MMOItemTemplate;
 import net.Indyuce.mmoitems.stat.data.random.RandomElementListData;
 import net.Indyuce.mmoitems.util.ElementStatType;
+import net.Indyuce.mmoitems.util.MMOUtils;
 import net.Indyuce.mmoitems.util.Pair;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -41,22 +39,25 @@ public class ElementsEdition extends EditionInventory {
     }
 
     @Override
-    public Inventory getInventory() {
-        Inventory inv = Bukkit.createInventory(this, 54, "Elements: " + template.getId());
+    public String getName() {
+        return "Elements: " + template.getId();
+    }
 
+    @Override
+    public void arrangeInventory() {
         final Optional<RandomElementListData> statData = getEventualStatData(ItemStats.ELEMENTS);
 
         ItemStack prevPage = new ItemStack(Material.ARROW);
         ItemMeta prevPageMeta = prevPage.getItemMeta();
         prevPageMeta.setDisplayName(ChatColor.GREEN + "Previous Page");
         prevPage.setItemMeta(prevPageMeta);
-        inv.setItem(25, prevPage);
+        inventory.setItem(25, prevPage);
 
         ItemStack nextPage = new ItemStack(Material.ARROW);
         ItemMeta nextPageMeta = nextPage.getItemMeta();
         nextPageMeta.setDisplayName(ChatColor.GREEN + "Next Page");
         nextPage.setItemMeta(nextPageMeta);
-        inv.setItem(43, nextPage);
+        inventory.setItem(43, nextPage);
 
         editableStats.clear();
 
@@ -84,15 +85,11 @@ public class ElementsEdition extends EditionInventory {
                 statItem.setItemMeta(statMeta);
 
                 final int slot = INIT_SLOTS[i] + k;
-                inv.setItem(slot, statItem);
+                inventory.setItem(slot, statItem);
                 editableStats.put(slot, Pair.of(element, statType));
                 k++;
             }
         }
-
-        addEditionInventoryItems(inv, true);
-
-        return inv;
     }
 
     @Override
@@ -105,13 +102,13 @@ public class ElementsEdition extends EditionInventory {
 
         if (page > 1 && item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Previous Page")) {
             page--;
-            open();
+            refreshInventory();
             return;
         }
 
         if (page < maxPage && item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Next Page")) {
             page++;
-            open();
+            refreshInventory();
             return;
         }
 

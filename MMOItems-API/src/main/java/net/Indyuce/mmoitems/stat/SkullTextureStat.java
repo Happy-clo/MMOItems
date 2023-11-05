@@ -47,7 +47,7 @@ public class SkullTextureStat extends ItemStat<SkullTextureData, SkullTextureDat
 		String format = config.getString("uuid");
 		Validate.notNull(format, "Could not find skull texture UUID: re-enter your skull texture value and one will be selected randomly.");
 
-		SkullTextureData skullTexture = new SkullTextureData(new GameProfile(UUID.fromString(format), null));
+		SkullTextureData skullTexture = new SkullTextureData(new GameProfile(UUID.fromString(format), "SkullTexture"));
 		skullTexture.getGameProfile().getProperties().put("textures", new Property("textures", value));
 		return skullTexture;
 	}

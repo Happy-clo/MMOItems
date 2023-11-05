@@ -1,9 +1,9 @@
-package net.Indyuce.mmoitems.gui.edition.recipe.rba.type;
+package net.Indyuce.mmoitems.gui.edition.recipe.button.type;
 
 import io.lumine.mythic.lib.api.util.AltChar;
 import io.lumine.mythic.lib.api.util.ui.SilentNumbers;
-import net.Indyuce.mmoitems.gui.edition.recipe.rba.RecipeButtonAction;
-import net.Indyuce.mmoitems.gui.edition.recipe.gui.RecipeMakerGUI;
+import net.Indyuce.mmoitems.gui.edition.recipe.button.RecipeButtonAction;
+import net.Indyuce.mmoitems.gui.edition.recipe.gui.RecipeEditorGUI;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +19,7 @@ public abstract class RBA_BooleanButton extends RecipeButtonAction {
      *
      * @param inv The edition inventory this is a button of
      */
-    public RBA_BooleanButton(@NotNull RecipeMakerGUI inv) {
+    public RBA_BooleanButton(@NotNull RecipeEditorGUI inv) {
         super(inv);
     }
 
@@ -97,7 +97,7 @@ public abstract class RBA_BooleanButton extends RecipeButtonAction {
         String input = isEnabled() ? "\u00a7aTRUE" : "\u00a7cFALSE";
 
         // Copy and send
-        return RecipeMakerGUI.addLore(getBooleanButton().clone(),
+        return RecipeEditorGUI.addLore(getBooleanButton().clone(),
                 SilentNumbers.toArrayList(
                         "", "\u00a77Current Value: " + input, "",
                         ChatColor.YELLOW + AltChar.listDash + " Right click to reset \u00a78(to\u00a74 FALSE\u00a78)\u00a7e.",

@@ -1,10 +1,10 @@
-package net.Indyuce.mmoitems.gui.edition.recipe.rba;
+package net.Indyuce.mmoitems.gui.edition.recipe.button;
 
 import io.lumine.mythic.lib.api.util.ui.SilentNumbers;
 import io.lumine.mythic.lib.api.util.ItemFactory;
 import net.Indyuce.mmoitems.api.crafting.recipe.SmithingCombinationType;
-import net.Indyuce.mmoitems.gui.edition.recipe.rba.type.RBA_ChooseableButton;
-import net.Indyuce.mmoitems.gui.edition.recipe.gui.RecipeMakerGUI;
+import net.Indyuce.mmoitems.gui.edition.recipe.button.type.RBA_ChooseableButton;
+import net.Indyuce.mmoitems.gui.edition.recipe.gui.RecipeEditorGUI;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +22,7 @@ public class RBA_SmithingUpgrades extends RBA_ChooseableButton {
      *
      * @param inv The edition inventory this is a button of
      */
-    public RBA_SmithingUpgrades(@NotNull RecipeMakerGUI inv) { super(inv); }
+    public RBA_SmithingUpgrades(@NotNull RecipeEditorGUI inv) { super(inv); }
 
     @NotNull final ItemStack chooseableButton = ItemFactory.of(Material.ANVIL).name("\u00a7aUpgrades Transfer").lore(SilentNumbers.chop(
             "What will happen to the upgrades of the ingredients? Will upgraded ingredients produce an upgraded output item?"

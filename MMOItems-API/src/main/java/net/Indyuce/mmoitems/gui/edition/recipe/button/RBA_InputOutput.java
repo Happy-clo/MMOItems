@@ -1,9 +1,9 @@
-package net.Indyuce.mmoitems.gui.edition.recipe.rba;
+package net.Indyuce.mmoitems.gui.edition.recipe.button;
 
 import io.lumine.mythic.lib.api.util.AltChar;
 import io.lumine.mythic.lib.api.util.ui.SilentNumbers;
 import io.lumine.mythic.lib.api.util.ItemFactory;
-import net.Indyuce.mmoitems.gui.edition.recipe.gui.RecipeMakerGUI;
+import net.Indyuce.mmoitems.gui.edition.recipe.gui.RecipeEditorGUI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +23,7 @@ public class RBA_InputOutput extends RecipeButtonAction {
      *
      * @param inv The edition inventory this is a button of
      */
-    public RBA_InputOutput(@NotNull RecipeMakerGUI inv) {
+    public RBA_InputOutput(@NotNull RecipeEditorGUI inv) {
         super(inv);
 
         // By default, input is shown.
@@ -64,9 +64,9 @@ public class RBA_InputOutput extends RecipeButtonAction {
      */
     @Override public void secondaryProcessInput(@NotNull String message, Object... info) throws IllegalArgumentException { }
 
-    @NotNull final ItemStack button = RecipeMakerGUI.addLore(ItemFactory.of(Material.CRAFTING_TABLE).name("\u00a7cSwitch to Output Mode").lore(SilentNumbers.chop(
+    @NotNull final ItemStack button = ItemFactory.of(Material.CRAFTING_TABLE).name("\u00a7cSwitch to Output Mode").lore(SilentNumbers.chop(
             "INPUT is the ingredients of the recipe, but (like milk buckets when crafting a cake) these ingredients may not be entirely consumed. In such cases, use the OUTPUT mode to specify what the ingredients will turn into."
-            , 63, "\u00a77")).build(), SilentNumbers.toArrayList(""));
+            , 63, "\u00a77")).build();
 
     @NotNull
     @Override
@@ -76,7 +76,7 @@ public class RBA_InputOutput extends RecipeButtonAction {
         String input = getInv().isShowingInput() ? "\u00a76INPUT" : "\u00a73OUTPUT";
 
         // Copy and send
-        return RecipeMakerGUI.addLore(button.clone(), SilentNumbers.toArrayList("\u00a77Currently Showing: " + input, "",
+        return RecipeEditorGUI.addLore(button.clone(), SilentNumbers.toArrayList("\u00a77Currently Showing: " + input, "",
                 ChatColor.YELLOW + AltChar.listDash + " Left click to switch mode." ));
     }
 }

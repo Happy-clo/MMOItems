@@ -17,15 +17,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BrowserDisplayIDX extends DoubleStat {
-
-    public BrowserDisplayIDX() { super("BROWSER_IDX", Material.GHAST_TEAR, "Browser Index", new String[] {"Used to display similar items together,", "neatly in the GUI \u00a7a/mmoitems browse", "", "Items with the same index are grouped."}, new String[]{"all"}); }
+    public BrowserDisplayIDX() {
+        super("BROWSER_IDX", Material.GHAST_TEAR, "Browser Index", new String[] {"Used to display similar items together,", "neatly in the GUI \u00a7a/mmoitems browse", "", "Items with the same index are grouped."}, new String[]{"all"});
+    }
 
     @Override
     public void whenApplied(@NotNull ItemStackBuilder item, @NotNull DoubleData data) {
         // Does not participate in actual items
     }
 
-    @Override public void whenLoaded(@NotNull ReadMMOItem mmoitem) { }
+    @Override
+    public void whenLoaded(@NotNull ReadMMOItem mmoitem) { }
 
     /**
      * They will be ordered.
@@ -33,7 +35,8 @@ public class BrowserDisplayIDX extends DoubleStat {
      * @return The MMOItem Templates separated by Index. Those with no index
      *         will be linked to the null index.
      */
-    @NotNull public static HashMap<Double, ArrayList<MMOItemTemplate>> select(@NotNull Collection<MMOItemTemplate> templates) {
+    @NotNull
+    public static HashMap<Double, ArrayList<MMOItemTemplate>> select(@NotNull Collection<MMOItemTemplate> templates) {
         HashMap<Double, ArrayList<MMOItemTemplate>> ret = new HashMap<>();
 
         // Go through them all

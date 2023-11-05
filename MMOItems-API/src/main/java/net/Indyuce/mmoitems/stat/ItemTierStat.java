@@ -27,7 +27,7 @@ public class ItemTierStat extends StringStat implements GemStoneStat {
 
 		ItemTier tier = MMOItems.plugin.getTiers().get(path);
 		item.addItemTag(new ItemTag("MMOITEMS_TIER", path));
-		item.getLore().insert("tier", MMOItems.plugin.getLanguage().getStatFormat(getPath()).replace("{value}", tier.getName()));
+		item.getLore().insert(getPath(), getGeneralStatFormat().replace("{value}", tier.getName()));
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class ItemTierStat extends StringStat implements GemStoneStat {
 		String format = message.toUpperCase().replace(" ", "_").replace("-", "_");
 		Validate.isTrue(MMOItems.plugin.getTiers().has(format), "Couldn't find the tier called '" + format + "'.");
 
-		inv.getEditedSection().set("tier", format);
+		inv.getEditedSection().set(getPath(), format);
 		inv.registerTemplateEdition();
 		inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + "Tier successfully changed to " + format + ".");
 	}

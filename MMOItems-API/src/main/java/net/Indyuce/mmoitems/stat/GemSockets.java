@@ -1,21 +1,12 @@
 package net.Indyuce.mmoitems.stat;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import io.lumine.mythic.lib.api.item.SupportedNBTTagValues;
-import org.apache.commons.lang.Validate;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryClickEvent;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-
+import io.lumine.mythic.lib.api.item.ItemTag;
+import io.lumine.mythic.lib.api.item.SupportedNBTTagValues;
+import io.lumine.mythic.lib.api.util.AltChar;
 import net.Indyuce.mmoitems.ItemStats;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.api.edition.StatEdition;
@@ -26,172 +17,206 @@ import net.Indyuce.mmoitems.stat.data.GemSocketsData;
 import net.Indyuce.mmoitems.stat.data.GemstoneData;
 import net.Indyuce.mmoitems.stat.data.type.StatData;
 import net.Indyuce.mmoitems.stat.type.ItemStat;
-import io.lumine.mythic.lib.api.item.ItemTag;
-import io.lumine.mythic.lib.api.util.AltChar;
+import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 public class GemSockets extends ItemStat<GemSocketsData, GemSocketsData> {
-	public GemSockets() {
-		super("GEM_SOCKETS", Material.EMERALD, "Gem Sockets", new String[] { "The amount of gem", "sockets your weapon has." },
-				new String[] { "piercing", "slashing", "blunt", "catalyst", "range", "tool", "armor", "accessory", "!gem_stone" });
-	}
+    public GemSockets() {
+        super("GEM_SOCKETS", Material.EMERALD, "Gem Sockets", new String[]{"The amount of gem", "sockets your weapon has."},
+                new String[]{"piercing", "slashing", "blunt", "catalyst", "range", "tool", "armor", "accessory", "!gem_stone"});
+    }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public GemSocketsData whenInitialized(Object object) {
-		Validate.isTrue(object instanceof List<?>, "Must specify a string list");
-		return new GemSocketsData((List<String>) object);
-	}
+    @Override
+    @SuppressWarnings("unchecked")
+    public GemSocketsData whenInitialized(Object object) {
+        Validate.isTrue(object instanceof List<?>, "Must specify a string list");
+        return new GemSocketsData((List<String>) object);
+    }
 
-	@Override
-	public void whenApplied(@NotNull ItemStackBuilder item, @NotNull GemSocketsData sockets) {
+    private String emptyGemSocketFormat, filledGemSocketFormat;
 
-		// Append NBT Tags
-		item.addItemTag(getAppliedNBT(sockets));
+    @Override
+    public void loadConfiguration(@NotNull ConfigurationSection legacyLanguageFile, @NotNull Object configObject) {
 
-		// Edit Lore
-		String empty = ItemStat.translate("empty-gem-socket"), filled = ItemStat.translate("filled-gem-socket");
-		List<String> lore = new ArrayList<>();
-		for (GemstoneData gem : sockets.getGemstones()) {
-			String gemName = gem.getName();
+        // LEGACY CODE
+        if (configObject instanceof String) {
+            emptyGemSocketFormat = legacyLanguageFile.getString("empty-gem-socket");
+            filledGemSocketFormat = legacyLanguageFile.getString("filled-gem-socket");
+        }
 
-			// Upgrades?
-			if (item.getMMOItem().hasUpgradeTemplate()) {
+        // Up-to-date code
+        else {
+            Validate.isTrue(configObject instanceof ConfigurationSection, "Must be a config section");
+            final ConfigurationSection config = (ConfigurationSection) configObject;
+            emptyGemSocketFormat = config.getString("empty");
+            filledGemSocketFormat = config.getString("filled");
+        }
+    }
 
-				int iLvl = item.getMMOItem().getUpgradeLevel();
-				if (iLvl != 0) {
+    @Override
+    public String getLegacyTranslationPath() {
+        return "empty-gem-socket";
+    }
 
-					Integer gLvl = gem.getLevel();
+    @Override
+    public void whenApplied(@NotNull ItemStackBuilder item, @NotNull GemSocketsData sockets) {
 
-					if (gLvl != null) {
+        // Append NBT Tags
+        item.addItemTag(getAppliedNBT(sockets));
 
-						int dLevel = iLvl - gLvl;
+        // Edit Lore
+        List<String> lore = new ArrayList<>();
+        for (GemstoneData gem : sockets.getGemstones()) {
+            String gemName = gem.getName();
 
-						gemName = DisplayName.appendUpgradeLevel(gemName, dLevel);
-					}
-				}
-			}
+            // Upgrades?
+            if (item.getMMOItem().hasUpgradeTemplate()) {
 
-			lore.add(filled.replace("{name}", gemName));
-		}
-		sockets.getEmptySlots().forEach(slot -> lore.add(empty.replace("{name}", slot)));
-		item.getLore().insert("gem-stones", lore);
-	}
+                int iLvl = item.getMMOItem().getUpgradeLevel();
+                if (iLvl != 0) {
 
-	@NotNull
-	@Override
-	public ArrayList<ItemTag> getAppliedNBT(@NotNull GemSocketsData sockets) {
+                    Integer gLvl = gem.getLevel();
 
-		// Well its just a Json tostring
-		ArrayList<ItemTag> ret = new ArrayList<>();
-		ret.add(new ItemTag(getNBTPath(), sockets.toJson().toString()));
+                    if (gLvl != null) {
 
-		// Thats it
-		return ret;
-	}
+                        int dLevel = iLvl - gLvl;
 
-	@Override
-	@NotNull public String getNBTPath() {
-		return "MMOITEMS_GEM_STONES";
-	}
+                        gemName = DisplayName.appendUpgradeLevel(gemName, dLevel);
+                    }
+                }
+            }
 
+            lore.add(filledGemSocketFormat.replace("{name}", gemName));
+        }
+        sockets.getEmptySlots().forEach(slot -> lore.add(emptyGemSocketFormat.replace("{name}", slot)));
+        item.getLore().insert("gem-stones", lore);
+    }
 
-	@Override
-	public void whenLoaded(@NotNull ReadMMOItem mmoitem) {
+    @NotNull
+    @Override
+    public ArrayList<ItemTag> getAppliedNBT(@NotNull GemSocketsData sockets) {
 
-		// Find relevant tags
-		ArrayList<ItemTag> relevantTags = new ArrayList<>();
-		if (mmoitem.getNBT().hasTag(getNBTPath()))
-			relevantTags.add(ItemTag.getTagAtPath(getNBTPath(), mmoitem.getNBT(), SupportedNBTTagValues.STRING));
+        // Well its just a Json tostring
+        ArrayList<ItemTag> ret = new ArrayList<>();
+        ret.add(new ItemTag(getNBTPath(), sockets.toJson().toString()));
 
-		// Attempt to build
-		StatData data = getLoadedNBT(relevantTags);
+        // Thats it
+        return ret;
+    }
 
-		// Valid?
-		if (data != null) { mmoitem.setData(this, data); }
-	}
+    @Override
+    @NotNull
+    public String getNBTPath() {
+        return "MMOITEMS_GEM_STONES";
+    }
 
-	@Nullable
-	@Override
-	public GemSocketsData getLoadedNBT(@NotNull ArrayList<ItemTag> storedTags) {
+    @Override
+    public void whenLoaded(@NotNull ReadMMOItem mmoitem) {
 
-		// Find Tag
-		ItemTag gTag = ItemTag.getTagAtPath(getNBTPath(), storedTags);
+        // Find relevant tags
+        ArrayList<ItemTag> relevantTags = new ArrayList<>();
+        if (mmoitem.getNBT().hasTag(getNBTPath()))
+            relevantTags.add(ItemTag.getTagAtPath(getNBTPath(), mmoitem.getNBT(), SupportedNBTTagValues.STRING));
 
-		// Found?
-		if (gTag != null) {
+        // Attempt to build
+        StatData data = getLoadedNBT(relevantTags);
 
-			try {
-				// Interpret as Json Object
-				JsonObject object = new JsonParser().parse((String) gTag.getValue()).getAsJsonObject();
-				GemSocketsData sockets = new GemSocketsData(object.getAsJsonArray("EmptySlots"));
+        // Valid?
+        if (data != null) {
+            mmoitem.setData(this, data);
+        }
+    }
 
-				JsonArray array = object.getAsJsonArray("Gemstones");
-				array.forEach(element -> sockets.add(new GemstoneData(element.getAsJsonObject())));
+    @Nullable
+    @Override
+    public GemSocketsData getLoadedNBT(@NotNull ArrayList<ItemTag> storedTags) {
 
-				// Return built
-				return sockets;
+        // Find Tag
+        ItemTag gTag = ItemTag.getTagAtPath(getNBTPath(), storedTags);
 
-			} catch (JsonSyntaxException|IllegalStateException exception) {
-				/*
-				 * OLD ITEM WHICH MUST BE UPDATED.
-				 */
-			}
-		}
+        // Found?
+        if (gTag != null) {
 
-		// Nope
-		return null;
-	}
+            try {
+                // Interpret as Json Object
+                JsonObject object = new JsonParser().parse((String) gTag.getValue()).getAsJsonObject();
+                GemSocketsData sockets = new GemSocketsData(object.getAsJsonArray("EmptySlots"));
 
-	@Override
-	public void whenClicked(@NotNull EditionInventory inv, @NotNull InventoryClickEvent event) {
-		if (event.getAction() == InventoryAction.PICKUP_ALL)
-			new StatEdition(inv, ItemStats.GEM_SOCKETS).enable("Write in the chat the COLOR of the gem socket you want to add.");
+                JsonArray array = object.getAsJsonArray("Gemstones");
+                array.forEach(element -> sockets.add(new GemstoneData(element.getAsJsonObject())));
 
-		if (event.getAction() == InventoryAction.PICKUP_HALF) {
-			if (inv.getEditedSection().contains(getPath())) {
-				List<String> lore = inv.getEditedSection().getStringList("" + getPath());
-				if (lore.size() < 1)
-					return;
+                // Return built
+                return sockets;
 
-				String last = lore.get(lore.size() - 1);
-				lore.remove(last);
-				inv.getEditedSection().set("" + getPath(), lore);
-				inv.registerTemplateEdition();
-				inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + "Successfully removed '" + last + ChatColor.GRAY + "'.");
-			}
-		}
-	}
+            } catch (JsonSyntaxException | IllegalStateException exception) {
+                /*
+                 * OLD ITEM WHICH MUST BE UPDATED.
+                 */
+            }
+        }
 
-	@Override
-	public void whenInput(@NotNull EditionInventory inv, @NotNull String message, Object... info) {
-		List<String> lore = inv.getEditedSection().contains(getPath()) ? inv.getEditedSection().getStringList("" + getPath()) : new ArrayList<>();
-		lore.add(message);
-		inv.getEditedSection().set("" + getPath(), lore);
-		inv.registerTemplateEdition();
-		inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + message + " successfully added.");
-	}
+        // Nope
+        return null;
+    }
 
-	@Override
-	public void whenDisplayed(List<String> lore, Optional<GemSocketsData> statData) {
+    @Override
+    public void whenClicked(@NotNull EditionInventory inv, @NotNull InventoryClickEvent event) {
+        if (event.getAction() == InventoryAction.PICKUP_ALL)
+            new StatEdition(inv, ItemStats.GEM_SOCKETS).enable("Write in the chat the COLOR of the gem socket you want to add.");
 
-		if (statData.isPresent()) {
-			lore.add(ChatColor.GRAY + "Current Value:");
-			GemSocketsData data = statData.get();
-			data.getEmptySlots().forEach(socket -> lore.add(ChatColor.GRAY + "* " + ChatColor.GREEN + socket + " Gem Socket"));
+        if (event.getAction() == InventoryAction.PICKUP_HALF) {
+            if (inv.getEditedSection().contains(getPath())) {
+                List<String> lore = inv.getEditedSection().getStringList("" + getPath());
+                if (lore.size() < 1)
+                    return;
 
-		} else
-			lore.add(ChatColor.GRAY + "Current Value: " + ChatColor.RED + "No Sockets");
+                String last = lore.get(lore.size() - 1);
+                lore.remove(last);
+                inv.getEditedSection().set("" + getPath(), lore);
+                inv.registerTemplateEdition();
+                inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + "Successfully removed '" + last + ChatColor.GRAY + "'.");
+            }
+        }
+    }
 
-		lore.add("");
-		lore.add(ChatColor.YELLOW + AltChar.listDash + " Click to add a gem socket.");
-		lore.add(ChatColor.YELLOW + AltChar.listDash + " Right click to remove the socket.");
-	}
+    @Override
+    public void whenInput(@NotNull EditionInventory inv, @NotNull String message, Object... info) {
+        List<String> lore = inv.getEditedSection().contains(getPath()) ? inv.getEditedSection().getStringList("" + getPath()) : new ArrayList<>();
+        lore.add(message);
+        inv.getEditedSection().set("" + getPath(), lore);
+        inv.registerTemplateEdition();
+        inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + message + " successfully added.");
+    }
 
-	@NotNull
-	@Override
-	public GemSocketsData getClearStatData() {
-		return new GemSocketsData(new ArrayList<>());
-	}
+    @Override
+    public void whenDisplayed(List<String> lore, Optional<GemSocketsData> statData) {
+
+        if (statData.isPresent()) {
+            lore.add(ChatColor.GRAY + "Current Value:");
+            GemSocketsData data = statData.get();
+            data.getEmptySlots().forEach(socket -> lore.add(ChatColor.GRAY + "* " + ChatColor.GREEN + socket + " Gem Socket"));
+
+        } else
+            lore.add(ChatColor.GRAY + "Current Value: " + ChatColor.RED + "No Sockets");
+
+        lore.add("");
+        lore.add(ChatColor.YELLOW + AltChar.listDash + " Click to add a gem socket.");
+        lore.add(ChatColor.YELLOW + AltChar.listDash + " Right click to remove the socket.");
+    }
+
+    @NotNull
+    @Override
+    public GemSocketsData getClearStatData() {
+        return new GemSocketsData(new ArrayList<>());
+    }
 }

@@ -65,10 +65,13 @@ public class UpgradeStat extends ItemStat<UpgradeData, UpgradeData> implements C
 		// Show in lore
 		item.addItemTag(getAppliedNBT(data));
 
+		// Special placeholder
+		item.getLore().registerPlaceholder("upgrade_level", String.valueOf(data.getLevel()));
+
 		// Show in lore
 		if (data.getMaxUpgrades() > 0)
 			item.getLore().insert(getPath(),
-					MMOItems.plugin.getLanguage().getStatFormat(getPath()).replace("{value}", String.valueOf(data.getMaxUpgrades())));
+					getGeneralStatFormat().replace("{value}", String.valueOf(data.getMaxUpgrades())));
 	}
 
 	@NotNull
@@ -82,7 +85,7 @@ public class UpgradeStat extends ItemStat<UpgradeData, UpgradeData> implements C
 	@Override
 	public void whenClicked(@NotNull EditionInventory inv, @NotNull InventoryClickEvent event) {
 		if (event.getAction() == InventoryAction.PICKUP_ALL)
-			new UpgradingEdition(inv.getPlayer(), inv.getEdited()).open(inv.getPage());
+			new UpgradingEdition(inv.getPlayer(), inv.getEdited()).open(inv);
 
 		if (event.getAction() == InventoryAction.PICKUP_HALF && inv.getEditedSection().contains("upgrade")) {
 			inv.getEditedSection().set("upgrade", null);
