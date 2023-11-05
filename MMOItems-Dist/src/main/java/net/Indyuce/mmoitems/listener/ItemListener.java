@@ -53,26 +53,36 @@ public class ItemListener implements Listener {
         Bukkit.getPluginManager().registerEvents(new RFFKeepSkins(), MMOItems.plugin);
     }
 
-    @EventHandler
+   @EventHandler
     private void onItemCraftRepair(PrepareItemCraftEvent event) {
+        // 判断事件是否由玩家发出，或者是否是修理物品
         if (!(event.getView().getPlayer() instanceof Player) || !event.isRepair())
             return;
 
+        // 获取玩家实例
         final Player player = (Player) event.getView().getPlayer();
+        // 获取物品矩阵
         final CraftingInventory inv = event.getInventory();
+        // 创建空气物品
         final ItemStack air = new ItemStack(Material.AIR);
+        // 获取物品矩阵的结果物品
         final ItemStack originalResult = inv.getResult();
 
+        // 设置物品矩阵的结果物品为空气物品
         inv.setResult(air);
+        // 延迟执行任务，等待物品矩阵中的物品被添加到物品矩阵中
         Bukkit.getScheduler().runTaskLater(MMOItems.plugin, () -> {
+            // 过滤物品矩阵中的物品，只保留物品类型不是空气物品的物品
             List<ItemStack> items = Arrays.stream(inv.getMatrix())
                     .filter(Objects::nonNull)
                     .filter(itemStack -> !itemStack.getType().isAir())
                     .collect(Collectors.toList());
+            // 计算物品矩阵中物品的数量，只包含MMO物品
             long mmoItemsCount = items.stream()
                     .filter(itemStack -> NBTItem.get(itemStack).hasTag("MMOITEMS_ITEM_ID"))
                     .count();
             // If there are no MMOItems in the crafting matrix, do nothing
+            // 如果物品矩阵中不包含MMO物品，则不执行任何操作
             if (mmoItemsCount == 0) {
                 inv.setResult(originalResult);
                 player.updateInventory();
@@ -80,15 +90,18 @@ public class ItemListener implements Listener {
             }
 
             // If both items are not MMO items or if they don't have the same id return
+            // 如果物品矩阵中包含两个物品，或者两个物品的MMO物品ID不同，则不执行任何操作
             if (mmoItemsCount == 1
                     || !NBTItem.get(items.get(0)).getString("MMOITEMS_ITEM_ID").equals(NBTItem.get(items.get(1)).getString("MMOITEMS_ITEM_ID"))) {
                 inv.setResult(air);
                 player.updateInventory();
                 return;
             }
+            // 设置物品矩阵的结果物品为原始结果物品
             inv.setResult(originalResult);
 
             // Is repair disabled in config?
+            // 判断是否禁用修理物品
             boolean repairDisabled = items.stream()
                     .allMatch(itemStack -> {
                         final NBTItem nbtItem = NBTItem.get(itemStack);
@@ -96,21 +109,28 @@ public class ItemListener implements Listener {
                     });
 
             // Does the item have a MMO durability tag?
+            // 判断物品是否有自定义耐久度标签
             boolean hasCustomDurability = items.stream().allMatch(itemStack -> new DurabilityItem(player, itemStack).isValid());
 
+            // 如果禁用修理物品，则设置物品矩阵的结果物品为空气物品
             if (repairDisabled)
                 inv.setResult(air);
+            // 如果物品有自定义耐久度标签，则设置物品矩阵的结果物品为自定义耐久度物品
             else if (hasCustomDurability) {
                 DurabilityItem durabilityItem = new DurabilityItem(player, items.get(0));
+                // 计算物品矩阵中物品的总耐久度
                 int summedDurability = items.stream()
                         .map(itemStack -> new DurabilityItem(player, itemStack))
                         .map(DurabilityItem::getDurability)
                         .reduce(0, Integer::sum);
+                // 计算最终耐久度
                 int finalDurability = durabilityItem.getMaxDurability() - Math.min(durabilityItem.getMaxDurability(), summedDurability);
+                // 如果最终耐久度大于0，则添加最终耐久度
                 if (finalDurability > 0)
                     durabilityItem.addDurability(finalDurability);
                 inv.setResult(durabilityItem.toItem());
             }
+            // 更新玩家的物品栏
             player.updateInventory();
         }, 1);
     }
