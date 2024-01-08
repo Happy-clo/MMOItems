@@ -45,3 +45,25 @@ jobs:
          title: "MMOItems 自动构建最新版本"
          files: |
            core/target/*.jar
+
+    - name: Remove
+      run: rm target/* -f
+    - name: Build with Maven
+      run: |
+          git clone https://github.com/MagicMC-Dev/MMOItems-Zh.git zh
+          cd zh
+          mvn -V -B clean package --file pom.xml
+    - name: upload
+      uses: actions/upload-artifact@v3
+      with:
+       name: MMOItems-ZH
+       path: zh/target
+    - name: automatic releases
+      uses: marvinpinto/action-automatic-releases@v1.2.1
+      with:
+         repo_token: "${{ secrets.GITHUB_TOKEN }}"
+         automatic_release_tag: "latest"
+         prerelease: false
+         title: "MMOItems 汉化自动构建最新版本"
+         files: |
+           core/target/*.jar
