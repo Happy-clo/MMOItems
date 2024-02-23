@@ -31,12 +31,15 @@ jobs:
       - name: Set Short SHA
         id: short-sha
         run: echo "SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)" >> $GITHUB_ENV
+      - name: Generate release tag
+        id: tag
+        run: echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       - name: automatic releases
         uses: marvinpinto/action-automatic-releases@v1.2.1
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "dev-${{ env.SHORT_SHA }}"
           prerelease: false
-          title: "MMOItems-${{ env.SHORT_SHA }} Dev Auto Build"
+          title: "MMOItems-${{ env.version }}-${{ env.SHORT_SHA }} Dev Auto Build"
           files: |
             target/*.jar
