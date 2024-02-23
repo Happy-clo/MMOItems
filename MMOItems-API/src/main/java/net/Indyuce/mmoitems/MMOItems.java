@@ -111,7 +111,6 @@ public class MMOItems extends MMOPlugin {
         getLogger().log(Level.INFO, "██║ ╚═╝ ██║██║ ╚═╝ ██║╚██████╔╝██║   ██║   ███████╗██║ ╚═╝ ██║███████║");
         getLogger().log(Level.INFO, "╚═╝     ╚═╝╚═╝     ╚═╝ ╚═════╝ ╚═╝   ╚═╝   ╚══════╝╚═╝     ╚═╝╚══════╝");
         getLogger().log(Level.INFO, "INFO   Source: phoenix-dvpmt/mmoitems    VERSION: 6.10");
-        getLogger().log(Level.INFO, "INFO   感谢使用);
         
         PluginUtils.isDependencyPresent("WorldEdit", u -> {
             try {
