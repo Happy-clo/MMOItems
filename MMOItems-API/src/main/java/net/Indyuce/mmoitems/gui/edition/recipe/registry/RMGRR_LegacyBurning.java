@@ -79,7 +79,7 @@ public class RMGRR_LegacyBurning implements RecipeRegistry {
 
         // Get ingredient
         String itemIngredient = recipeSection.getString("item");
-        if (itemIngredient == null) { throw new IllegalArgumentException("Missing input ingredient"); }
+        if (itemIngredient == null) { throw new IllegalArgumentException("缺少输入材料"); }
         WorkbenchIngredient ingredient = RecipeManager.getWorkbenchIngredient(itemIngredient);
 
         // Read amount from configuration

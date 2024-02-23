@@ -3,11 +3,11 @@ package net.Indyuce.mmoitems.util;
 import io.lumine.mythic.lib.element.Element;
 
 public enum ElementStatType {
-    DAMAGE("Flat Damage"),
-    DAMAGE_PERCENT("Extra Damage (%)"),
-    WEAKNESS("Weakness (%)"),
-    DEFENSE("Defense"),
-    DEFENSE_PERCENT("Extra Defense (%)");
+    DAMAGE("元素伤害"),
+    DAMAGE_PERCENT("元素额外伤害 (%)"),
+    WEAKNESS("元素虚弱  (%) "),
+    DEFENSE("元素防御"),
+    DEFENSE_PERCENT("元素额外防御  (%) ");
 
     private final String name;
 

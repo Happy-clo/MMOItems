@@ -31,7 +31,7 @@ public class RMGRR_MegaShaped implements RecipeRegistry {
     @Override public String getRecipeConfigPath() { return "megashaped"; }
     @NotNull @Override public String getRecipeTypeName() { return "Mega Shaped"; }
 
-    @NotNull final ItemStack displayListItem = RecipeEditorGUI.rename(new ItemStack(Material.JUKEBOX), FFPMMOItems.get().getExampleFormat() + "Mega Shaped Recipe");
+    @NotNull final ItemStack displayListItem = RecipeEditorGUI.rename(new ItemStack(Material.JUKEBOX), FFPMMOItems.get().getExampleFormat() + "巨型合成配方");
     @NotNull @Override public ItemStack getDisplayListItem() { return displayListItem; }
 
     @Override public void openForPlayer(@NotNull EditionInventory inv, @NotNull String recipeName, Object... otherParams) {
@@ -46,11 +46,11 @@ public class RMGRR_MegaShaped implements RecipeRegistry {
         ConfigurationSection recipeSection = RecipeEditorGUI.moveInput(recipeTypeSection, recipeName);
 
         NamespacedKey nk = namespace.getValue();
-        if (nk == null) { throw new IllegalArgumentException(FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "Illegal (Null) Namespace")); }
+        if (nk == null) { throw new IllegalArgumentException(FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "非法（空）命名空间")); }
 
         // Identify the input
         ShapedRecipe input = megaShapedRecipeFromList(nk.getKey(), new ArrayList<>(recipeSection.getStringList(RecipeEditorGUI.INPUT_INGREDIENTS)), ffp);
-        if (input == null) { throw new IllegalArgumentException(FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "Shaped recipe containing only AIR, $fignored$b.")); }
+        if (input == null) { throw new IllegalArgumentException(FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "仅包含空气的巨型配方, $f已忽略$b.")); }
 
         // Read the options and output
         ShapedRecipe output = megaShapedRecipeFromList(nk.getKey(), new ArrayList<>(recipeSection.getStringList(RecipeEditorGUI.OUTPUT_INGREDIENTS)), ffp);
@@ -139,7 +139,7 @@ public class RMGRR_MegaShaped implements RecipeRegistry {
             }
 
             // Size not 3? BRUH
-            if (positions.length != 6) { throw new IllegalArgumentException("Invalid mega crafting table row $u" + updatedRow + "$b ($fNot exactly 6 ingredients wide$b)."); }
+            if (positions.length != 6) { throw new IllegalArgumentException("大型工作台第 $u 行无效" + updatedRow + "$b ($f不完全是 6 个格子的长宽度$b)."); }
 
             // Identify
             ProvidedUIFilter left = RecipeEditorGUI.readIngredientFrom(positions[0], ffp);

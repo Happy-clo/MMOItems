@@ -3,16 +3,16 @@ package net.Indyuce.mmoitems;
 import io.lumine.mythic.lib.api.item.NBTItem;
 import io.lumine.mythic.lib.api.util.ui.FriendlyFeedbackMessage;
 import io.lumine.mythic.lib.api.util.ui.FriendlyFeedbackProvider;
+import io.lumine.mythic.lib.util.MMOPlugin;
 import io.lumine.mythic.lib.version.SpigotPlugin;
-import net.Indyuce.mmoitems.api.ItemTier;
 import net.Indyuce.mmoitems.api.DeathItemsHandler;
+import net.Indyuce.mmoitems.api.ItemTier;
 import net.Indyuce.mmoitems.api.Type;
 import net.Indyuce.mmoitems.api.crafting.MMOItemUIFilter;
 import net.Indyuce.mmoitems.api.item.mmoitem.MMOItem;
 import net.Indyuce.mmoitems.api.item.template.MMOItemTemplate;
 import net.Indyuce.mmoitems.api.player.PlayerData;
 import net.Indyuce.mmoitems.api.util.MMOItemReforger;
-import net.Indyuce.mmoitems.api.util.NumericStatFormula;
 import net.Indyuce.mmoitems.api.util.message.FFPMMOItems;
 import net.Indyuce.mmoitems.command.MMOItemsCommandTreeRoot;
 import net.Indyuce.mmoitems.comp.MMOItemsMetrics;
@@ -50,7 +50,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
@@ -61,15 +60,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 
-public class MMOItems extends JavaPlugin {
+public class MMOItems extends MMOPlugin {
     public static MMOItems plugin;
 
     private final PluginUpdateManager pluginUpdateManager = new PluginUpdateManager();
     private final CraftingManager stationRecipeManager = new CraftingManager();
-    private final LoreFormatManager formatManager = new LoreFormatManager();
+    private final LoreFormatManager loreManager = new LoreFormatManager();
     private final TemplateManager templateManager = new TemplateManager();
     private final SkillManager skillManager = new SkillManager();
-    private final EntityManager entityManager = new EntityManager();
     private final RecipeManager recipeManager = new RecipeManager();
     private final LayoutManager layoutManager = new LayoutManager();
     private final TypeManager typeManager = new TypeManager();
@@ -105,14 +103,22 @@ public class MMOItems extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        getLogger().log(Level.INFO, "Plugin file is called '" + getFile().getName() + "'");
-
+        // getLogger().log(Level.INFO, "插件文件名为 '" + getFile().getName());
+        getLogger().log(Level.INFO, "███╗   ███╗███╗   ███╗ ██████╗ ██╗████████╗███████╗███╗   ███╗███████╗");
+        getLogger().log(Level.INFO, "████╗ ████║████╗ ████║██╔═══██╗██║╚══██╔══╝██╔════╝████╗ ████║██╔════╝");
+        getLogger().log(Level.INFO, "██╔████╔██║██╔████╔██║██║   ██║██║   ██║   █████╗  ██╔████╔██║███████╗");
+        getLogger().log(Level.INFO, "██║╚██╔╝██║██║╚██╔╝██║██║   ██║██║   ██║   ██╔══╝  ██║╚██╔╝██║╚════██║");
+        getLogger().log(Level.INFO, "██║ ╚═╝ ██║██║ ╚═╝ ██║╚██████╔╝██║   ██║   ███████╗██║ ╚═╝ ██║███████║");
+        getLogger().log(Level.INFO, "╚═╝     ╚═╝╚═╝     ╚═╝ ╚═════╝ ╚═╝   ╚═╝   ╚══════╝╚═╝     ╚═╝╚══════╝");
+        getLogger().log(Level.INFO, "INFO   Source: phoenix-dvpmt/mmoitems    VERSION: 6.10");
+        getLogger().log(Level.INFO, "INFO   感谢使用);
+        
         PluginUtils.isDependencyPresent("WorldEdit", u -> {
             try {
                 new WorldEditSupport();
-                getLogger().log(Level.INFO, "Hooked onto WorldEdit");
+                getLogger().log(Level.INFO, "挂钩至 WorldEdit");
             } catch (Exception exception) {
-                getLogger().log(Level.WARNING, "Could not initialize support with WorldEdit 7: ", exception);
+                getLogger().log(Level.WARNING, "无法初始化 WorldEdit 7 支持: ", exception);
             }
         });
 
@@ -121,7 +127,7 @@ public class MMOItems extends JavaPlugin {
         configManager = new ConfigManager();
 
         statManager.load();
-        typeManager.reload();
+        typeManager.reload(false);
         templateManager.preloadObjects();
 
         PluginUtils.isDependencyPresent("MMOCore", u -> new MMOCoreMMOLoader());
@@ -142,13 +148,15 @@ public class MMOItems extends JavaPlugin {
         MMOItemUIFilter.register();
         RecipeTypeListGUI.registerNativeRecipes();
 
+        typeManager.postload();
+
         skillManager.initialize(false);
 
         final int configVersion = getConfig().contains("config-version", true) ? getConfig().getInt("config-version") : -1;
         final int defConfigVersion = getConfig().getDefaults().getInt("config-version");
         if (configVersion != defConfigVersion) {
-            getLogger().warning("You may be using an outdated config.yml!");
-            getLogger().warning("(Your config version: '" + configVersion + "' | Expected config version: '" + defConfigVersion + "')");
+            getLogger().warning("您可能正在使用过时的 config.yml！");
+            getLogger().warning("(您的配置版本: '" + configVersion + "' | 预期配置版本: '" + defConfigVersion + "')");
         }
 
         // registering here so the stats will load with the templates
@@ -166,7 +174,7 @@ public class MMOItems extends JavaPlugin {
          * can be fully loaded
          */
         statManager.loadElements();
-        formatManager.reload();
+        loreManager.reload();
         tierManager = new TierManager();
         setManager = new SetManager();
         upgradeManager = new UpgradeManager();
@@ -179,14 +187,13 @@ public class MMOItems extends JavaPlugin {
 
         PluginUtils.hookDependencyIfPresent("Vault", u -> vaultSupport = new VaultSupport());
 
-        getLogger().log(Level.INFO, "Loading crafting stations, please wait..");
+        getLogger().log(Level.INFO, "正在加载制作站, 请稍候..");
         layoutManager.reload();
         stationRecipeManager.reload();
 
         // This ones are not implementing Reloadable
         MMOItemReforger.reload();
 
-        Bukkit.getPluginManager().registerEvents(entityManager, this);
         Bukkit.getPluginManager().registerEvents(dropTableManager, this);
 
         // Load Dist module
@@ -194,7 +201,7 @@ public class MMOItems extends JavaPlugin {
         try {
             Class.forName("net.Indyuce.mmoitems.MMOItemsBukkit").getConstructor(MMOItems.class).newInstance(this);
         } catch (Throwable exception) {
-            throw new RuntimeException("Cannot run an API build on Spigot!");
+            throw new RuntimeException("无法在 Spigot 上运行 API 构建!");
         }
 
         /*
@@ -223,14 +230,14 @@ public class MMOItems extends JavaPlugin {
         PluginUtils.hookDependencyIfPresent("PlaceholderAPI", unused -> new MMOItemsPlaceholders().register());
 
         if (Bukkit.getPluginManager().getPlugin("BossShopPro") != null) {
-            getLogger().log(Level.INFO, "Hooked onto BossShopPro");
+            getLogger().log(Level.INFO, "挂钩至 BossShopPro");
             (new BukkitRunnable() {
                 public void run() {
                     //noinspection ProhibitedExceptionCaught
                     try {
                         new MMOItemsRewardTypes().register();
                     } catch (NullPointerException ignored) {
-                        getLogger().log(Level.INFO, "Could not Hook onto BossShopPro");
+                        getLogger().log(Level.INFO, "无法挂勾到 BossShopPro");
                     }
                 }
             }).runTaskLater(this, 1L);
@@ -238,7 +245,7 @@ public class MMOItems extends JavaPlugin {
 
 		/*if (Bukkit.getPluginManager().getPlugin("Denizen") != null) {
 			new DenizenHook();
-			getLogger().log(Level.INFO, "Hooked onto Denizen");
+			getLogger().log(Level.INFO, "挂钩至 Denizen");
 		}*/
 
         // Compatibility with /reload
@@ -246,7 +253,7 @@ public class MMOItems extends JavaPlugin {
         playerDataManager.initialize(EventPriority.NORMAL, EventPriority.HIGHEST);
 
         // Amount and bukkit recipes
-        getLogger().log(Level.INFO, "Loading recipes, please wait...");
+        getLogger().log(Level.INFO, "配方加载中, 请稍候...");
         recipeManager.loadRecipes();
 
         // Main command
@@ -265,7 +272,7 @@ public class MMOItems extends JavaPlugin {
             return;
 
         // Save player data
-        playerDataManager.saveAll(false);
+        playerDataManager.close();
 
         // Drop abandoned items
         DeathItemsHandler.getActive().forEach(info -> info.giveItems(true));
@@ -306,7 +313,7 @@ public class MMOItems extends JavaPlugin {
 
     @Nullable
     public RPGHandler getMainRPG() {
-        Validate.isTrue(!rpgPlugins.isEmpty(), "No RPG plugin was found");
+        Validate.isTrue(!rpgPlugins.isEmpty(), "没有找到RPG插件");
         return rpgPlugins.get(0);
     }
 
@@ -324,7 +331,7 @@ public class MMOItems extends JavaPlugin {
      * plugins in the installed plugin list.
      */
     public void findRpgPlugins() {
-        Validate.isTrue(rpgPlugins.isEmpty(), "RPG hooks have already been computed");
+        Validate.isTrue(rpgPlugins.isEmpty(), "RPG 挂钩已成功计算");
 
         // Default hook
         rpgPlugins.add(new DefaultHook());
@@ -338,16 +345,16 @@ public class MMOItems extends JavaPlugin {
                 try {
                     final RPGHandler handler = enumPlugin.load();
                     rpgPlugins.add(handler);
-                    getLogger().log(Level.INFO, "Hooked onto " + enumPlugin.getName());
+                    getLogger().log(Level.INFO, "挂钩至 " + enumPlugin.getName());
 
                     // Register as main RPG plugin
                     if (preferredName.equalsIgnoreCase(enumPlugin.name())) {
                         Collections.swap(rpgPlugins, 0, rpgPlugins.size() - 1);
-                        getLogger().log(Level.INFO, "Now using " + enumPlugin.getName() + " as RPG core plugin");
+                        getLogger().log(Level.INFO, "正在使用 " + enumPlugin.getName() + " 作为 RPG 核心插件");
                     }
 
                 } catch (Exception exception) {
-                    MMOItems.plugin.getLogger().log(Level.WARNING, "Could not initialize RPG plugin compatibility with " + enumPlugin.getName() + ":");
+                    MMOItems.plugin.getLogger().log(Level.WARNING, "无法初始化 RPG 插件兼容性 " + enumPlugin.getName() + ":");
                     exception.printStackTrace();
                 }
 
@@ -365,14 +372,14 @@ public class MMOItems extends JavaPlugin {
      * @param handler Your RPGHandler instance
      */
     public void setRPG(@NotNull RPGHandler handler) {
-        Validate.notNull(handler, "RPGHandler cannot be null");
+        Validate.notNull(handler, "RPGHandler 不能为空");
 
         // Unregister old events
         if (getMainRPG() instanceof Listener && isEnabled())
             HandlerList.unregisterAll((Plugin) getMainRPG());
 
         rpgPlugins.add(0, handler);
-        getLogger().log(Level.INFO, "Now using " + handler.getClass().getSimpleName() + " as RPG provider");
+        getLogger().log(Level.INFO, "正在使用 " + handler.getClass().getSimpleName() + " 作为 RPG 提供");
 
         // Register new events
         if (handler instanceof Listener && isEnabled())
@@ -411,10 +418,10 @@ public class MMOItems extends JavaPlugin {
      *
      * @param value The player inventory subclass
      * @deprecated Rather than setting this to the only inventory MMOItems will
-     * search equipment within, you must add your inventory to the
-     * handler with <code>getInventory().register()</code>. This method
-     * will clear all other PlayerInventories for now, as to keep
-     * backwards compatibility.
+     *         search equipment within, you must add your inventory to the
+     *         handler with <code>getInventory().register()</code>. This method
+     *         will clear all other PlayerInventories for now, as to keep
+     *         backwards compatibility.
      */
     @Deprecated
     public void setPlayerInventory(PlayerInventory value) {
@@ -435,7 +442,7 @@ public class MMOItems extends JavaPlugin {
      * @param enchantPlugin Enchantment plugin
      */
     public void registerEnchantPlugin(EnchantPlugin enchantPlugin) {
-        Validate.notNull(enchantPlugin, "Enchant plugin cannot be null");
+        Validate.notNull(enchantPlugin, "附魔插件不能为空");
         enchantPlugins.add(enchantPlugin);
     }
 
@@ -449,10 +456,6 @@ public class MMOItems extends JavaPlugin {
 
     public TierManager getTiers() {
         return tierManager;
-    }
-
-    public EntityManager getEntities() {
-        return entityManager;
     }
 
     public DropTableManager getDropTables() {
@@ -491,8 +494,13 @@ public class MMOItems extends JavaPlugin {
         return templateManager;
     }
 
+    public LoreFormatManager getLore() {
+        return loreManager;
+    }
+
+    @Deprecated
     public LoreFormatManager getFormats() {
-        return formatManager;
+        return getLore();
     }
 
     @Deprecated
@@ -523,9 +531,9 @@ public class MMOItems extends JavaPlugin {
 
     /**
      * @return Generates an item given an item template. The item level will
-     * scale according to the player RPG level if the template has the
-     * 'level-item' option. The item will pick a random tier if the
-     * template has the 'tiered' option
+     *         scale according to the player RPG level if the template has the
+     *         'level-item' option. The item will pick a random tier if the
+     *         template has the 'tiered' option
      */
     @Nullable
     public MMOItem getMMOItem(@Nullable Type type, @Nullable String id, @Nullable PlayerData player) {
@@ -543,9 +551,9 @@ public class MMOItems extends JavaPlugin {
 
     /**
      * @return Generates an item given an item template. The item level will
-     * scale according to the player RPG level if the template has the
-     * 'level-item' option. The item will pick a random tier if the
-     * template has the 'tiered' option
+     *         scale according to the player RPG level if the template has the
+     *         'level-item' option. The item will pick a random tier if the
+     *         template has the 'tiered' option
      */
     @Nullable
     public ItemStack getItem(@Nullable Type type, @Nullable String id, @NotNull PlayerData player) {
@@ -562,7 +570,7 @@ public class MMOItems extends JavaPlugin {
      * @param itemLevel The desired item level
      * @param itemTier  The desired item tier, can be null
      * @return Generates an item given an item template with a
-     * specific item level and item tier
+     *         specific item level and item tier
      */
     @Nullable
     public MMOItem getMMOItem(@Nullable Type type, @Nullable String id, int itemLevel, @Nullable ItemTier itemTier) {
@@ -582,7 +590,7 @@ public class MMOItems extends JavaPlugin {
      * @param itemLevel The desired item level
      * @param itemTier  The desired item tier, can be null
      * @return Generates an item given an item template with a
-     * specific item level and item tier
+     *         specific item level and item tier
      */
     @Nullable
     public ItemStack getItem(@Nullable Type type, @Nullable String id, int itemLevel, @Nullable ItemTier itemTier) {
@@ -597,10 +605,10 @@ public class MMOItems extends JavaPlugin {
 
     /**
      * @return Generates an item given an item template. The item level will be
-     * 0 and the item will have no item tier unless one is specified in
-     * the base item data.
-     * <p></p>
-     * Will return <code>null</code> if such MMOItem does not exist.
+     *         0 and the item will have no item tier unless one is specified in
+     *         the base item data.
+     *         <p></p>
+     *         Will return <code>null</code> if such MMOItem does not exist.
      */
     @Nullable
     public MMOItem getMMOItem(@Nullable Type type, @Nullable String id) {
@@ -609,10 +617,10 @@ public class MMOItems extends JavaPlugin {
 
     /**
      * @return Generates an item given an item template. The item level will be
-     * 0 and the item will have no item tier unless one is specified in
-     * the base item data.
-     * <p></p>
-     * Will return <code>null</code> if such MMOItem does not exist.
+     *         0 and the item will have no item tier unless one is specified in
+     *         the base item data.
+     *         <p></p>
+     *         Will return <code>null</code> if such MMOItem does not exist.
      */
 
     @Nullable
@@ -625,10 +633,10 @@ public class MMOItems extends JavaPlugin {
 
     /**
      * @return Generates an item given an item template. The item level will be
-     * 0 and the item will have no item tier unless one is specified in
-     * the base item data.
-     * <p></p>
-     * Will return <code>null</code> if such MMOItem does not exist.
+     *         0 and the item will have no item tier unless one is specified in
+     *         the base item data.
+     *         <p></p>
+     *         Will return <code>null</code> if such MMOItem does not exist.
      */
     @Nullable
     public ItemStack getItem(@Nullable Type type, @Nullable String id) {

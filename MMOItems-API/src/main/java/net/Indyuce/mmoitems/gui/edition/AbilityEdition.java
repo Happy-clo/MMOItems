@@ -1,6 +1,7 @@
 package net.Indyuce.mmoitems.gui.edition;
 
 import io.lumine.mythic.lib.MythicLib;
+import io.lumine.mythic.lib.UtilityMethods;
 import io.lumine.mythic.lib.api.item.ItemTag;
 import io.lumine.mythic.lib.api.util.AltChar;
 import io.lumine.mythic.lib.skill.trigger.TriggerType;
@@ -41,7 +42,7 @@ public class AbilityEdition extends EditionInventory {
 
 	@Override
 	public String getName() {
-		return "Ability Edition";
+		return "技能编辑";
 	}
 
 	@Override
@@ -54,15 +55,15 @@ public class AbilityEdition extends EditionInventory {
 
 		ItemStack abilityItem = new ItemStack(Material.BLAZE_POWDER);
 		ItemMeta abilityItemMeta = abilityItem.getItemMeta();
-		abilityItemMeta.setDisplayName(ChatColor.GREEN + "Ability");
+		abilityItemMeta.setDisplayName(ChatColor.GREEN + "技能");
 		List<String> abilityItemLore = new ArrayList<>();
-		abilityItemLore.add(ChatColor.GRAY + "Choose what ability your weapon will cast.");
+		abilityItemLore.add(ChatColor.GRAY + "选择你的武器将绑定的技能");
 		abilityItemLore.add("");
 		abilityItemLore.add(
-				ChatColor.GRAY + "Current Value: " + (ability == null ? ChatColor.RED + "No ability selected." : ChatColor.GOLD + ability.getName()));
+				ChatColor.GRAY + "当前值: " + (ability == null ? ChatColor.RED + "没有选择技能" : ChatColor.GOLD + ability.getName()));
 		abilityItemLore.add("");
-		abilityItemLore.add(ChatColor.YELLOW + AltChar.listDash + " Left click to select.");
-		abilityItemLore.add(ChatColor.YELLOW + AltChar.listDash + " Right click to reset.");
+		abilityItemLore.add(ChatColor.YELLOW + AltChar.listDash + " 左键单击选择");
+		abilityItemLore.add(ChatColor.YELLOW + AltChar.listDash + " 右键单击重置");
 		abilityItemMeta.setLore(abilityItemLore);
 		abilityItem.setItemMeta(abilityItemMeta);
 
@@ -79,16 +80,16 @@ public class AbilityEdition extends EditionInventory {
 
 			ItemStack castModeItem = new ItemStack(Material.ARMOR_STAND);
 			ItemMeta castModeItemMeta = castModeItem.getItemMeta();
-			castModeItemMeta.setDisplayName(ChatColor.GREEN + "Trigger");
+			castModeItemMeta.setDisplayName(ChatColor.GREEN + "触发器(具体看wiki)");
 			List<String> castModeItemLore = new ArrayList<>();
-			castModeItemLore.add(ChatColor.GRAY + "Choose what action the player needs to");
-			castModeItemLore.add(ChatColor.GRAY + "perform in order to cast your ability.");
+			castModeItemLore.add(ChatColor.GRAY + "选择玩家需要执行什么操作");
+			castModeItemLore.add(ChatColor.GRAY + "才能释放物品上的技能 (触发技能)");
 			castModeItemLore.add("");
-			castModeItemLore.add(ChatColor.GRAY + "Current Value: "
-					+ (castMode == null ? ChatColor.RED + "No trigger selected." : ChatColor.GOLD + castMode.getName()));
+			castModeItemLore.add(ChatColor.GRAY + "当前值: "
+					+ (castMode == null ? ChatColor.RED + "未选择触发器" : ChatColor.GOLD + castMode.getName()));
 			castModeItemLore.add("");
-			castModeItemLore.add(ChatColor.YELLOW + AltChar.listDash + " Left click to select.");
-			castModeItemLore.add(ChatColor.YELLOW + AltChar.listDash + " Right click to reset.");
+			castModeItemLore.add(ChatColor.YELLOW + AltChar.listDash + " 左键单击选择");
+			castModeItemLore.add(ChatColor.YELLOW + AltChar.listDash + " 右键单击重置");
 			castModeItemMeta.setLore(castModeItemLore);
 			castModeItem.setItemMeta(castModeItemMeta);
 
@@ -100,24 +101,24 @@ public class AbilityEdition extends EditionInventory {
 			for (String modifier : ability.getHandler().getModifiers()) {
 				ItemStack modifierItem = VersionMaterial.GRAY_DYE.toItem();
 				ItemMeta modifierItemMeta = modifierItem.getItemMeta();
-				modifierItemMeta.setDisplayName(ChatColor.GREEN + MMOUtils.caseOnWords(modifier.toLowerCase().replace("-", " ")));
+				modifierItemMeta.setDisplayName(ChatColor.GREEN + UtilityMethods.caseOnWords(modifier.toLowerCase().replace("-", " ")));
 				List<String> modifierItemLore = new ArrayList<>();
-				modifierItemLore.add("" + ChatColor.GRAY + ChatColor.ITALIC + "This is an ability modifier. Changing this");
-				modifierItemLore.add("" + ChatColor.GRAY + ChatColor.ITALIC + "value will slightly customize the ability.");
+				modifierItemLore.add("" + ChatColor.GRAY + ChatColor.ITALIC + "这是一个技能修饰符更改此值");
+				modifierItemLore.add("" + ChatColor.GRAY + ChatColor.ITALIC + "可自定义技能的伤害冷却等等.");
 				modifierItemLore.add("");
 
 				try {
-					modifierItemLore.add(ChatColor.GRAY + "Current Value: " + ChatColor.GOLD
+					modifierItemLore.add(ChatColor.GRAY + "当前值: " + ChatColor.GOLD
 							+ (section.contains(modifier) ? new NumericStatFormula(section.get(modifier)).toString()
 									: MODIFIER_FORMAT.format(ability.getDefaultModifier(modifier))));
 				} catch (IllegalArgumentException exception) {
-					modifierItemLore.add(ChatColor.GRAY + "Could not read value. Using default");
+					modifierItemLore.add(ChatColor.GRAY + "无法读取, 使用默认值");
 				}
 
-				modifierItemLore.add(ChatColor.GRAY + "Default Value: " + ChatColor.GOLD + MODIFIER_FORMAT.format(ability.getDefaultModifier(modifier)));
+				modifierItemLore.add(ChatColor.GRAY + "默认值: " + ChatColor.GOLD + MODIFIER_FORMAT.format(ability.getDefaultModifier(modifier)));
 				modifierItemLore.add("");
-				modifierItemLore.add(ChatColor.YELLOW + AltChar.listDash + " Click to change this value.");
-				modifierItemLore.add(ChatColor.YELLOW + AltChar.listDash + " Right click to reset.");
+				modifierItemLore.add(ChatColor.YELLOW + AltChar.listDash + " 左键单击选择");
+				modifierItemLore.add(ChatColor.YELLOW + AltChar.listDash + " 右键单击重置");
 				modifierItemMeta.setLore(modifierItemLore);
 				modifierItem.setItemMeta(modifierItemMeta);
 
@@ -130,7 +131,7 @@ public class AbilityEdition extends EditionInventory {
 
 		ItemStack glass = VersionMaterial.GRAY_STAINED_GLASS_PANE.toItem();
 		ItemMeta glassMeta = glass.getItemMeta();
-		glassMeta.setDisplayName(ChatColor.RED + "- No Modifier -");
+		glassMeta.setDisplayName(ChatColor.RED + "- 无修饰符 -");
 		glass.setItemMeta(glassMeta);
 
 		while (n < slots.length)
@@ -148,15 +149,15 @@ public class AbilityEdition extends EditionInventory {
 		if (event.getInventory() != event.getClickedInventory() || !MMOUtils.isMetaItem(item, false))
 			return;
 
-		if (item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + AltChar.rightArrow + " Back")) {
+		if (item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + AltChar.rightArrow + "返回")) {
 			new AbilityListEdition(player, template).open(this);
 			return;
 		}
 
-		if (item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Ability")) {
+		if (item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "技能")) {
 			if (event.getAction() == InventoryAction.PICKUP_ALL)
-				new StatEdition(this, ItemStats.ABILITIES, configKey, "ability").enable("Write in the chat the ability you want.",
-						"You can access the ability list by typing " + ChatColor.AQUA + "/mi list ability");
+				new StatEdition(this, ItemStats.ABILITIES, configKey, "ability").enable("在聊天栏中输入您想要的技能名称.",
+						"您可以通过输入该指令插件技能列表 " + ChatColor.AQUA + "/mi list ability");
 
 			if (event.getAction() == InventoryAction.PICKUP_HALF) {
 				if (getEditedSection().contains("ability." + configKey + ".type")) {
@@ -166,18 +167,18 @@ public class AbilityEdition extends EditionInventory {
 						getEditedSection().set("ability", null);
 
 					registerTemplateEdition();
-					player.sendMessage(MMOItems.plugin.getPrefix() + "Successfully reset the ability.");
+					player.sendMessage(MMOItems.plugin.getPrefix() + "成功重置技能.");
 				}
 			}
 			return;
 		}
 
-		if (item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Trigger")) {
+		if (item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "触发器(具体看wiki)")) {
 			if (event.getAction() == InventoryAction.PICKUP_ALL) {
 				new StatEdition(this, ItemStats.ABILITIES, configKey, "mode").enable();
 
 				player.sendMessage("");
-				player.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + "Available Triggers");
+				player.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + "可用触发器");
 				for (TriggerType castMode : TriggerType.values())
 					player.sendMessage("* " + ChatColor.GREEN + castMode.name());
 			}
@@ -185,7 +186,7 @@ public class AbilityEdition extends EditionInventory {
 			if (event.getAction() == InventoryAction.PICKUP_HALF && getEditedSection().contains("ability." + configKey + ".mode")) {
 				getEditedSection().set("ability." + configKey + ".mode", null);
 				registerTemplateEdition();
-				player.sendMessage(MMOItems.plugin.getPrefix() + "Successfully reset the ability trigger.");
+				player.sendMessage(MMOItems.plugin.getPrefix() + "成功重置技能触发器.");
 			}
 			return;
 		}
@@ -195,13 +196,13 @@ public class AbilityEdition extends EditionInventory {
 			return;
 
 		if (event.getAction() == InventoryAction.PICKUP_ALL)
-			new StatEdition(this, ItemStats.ABILITIES, configKey, tag).enable("Write in the chat the value you want.");
+			new StatEdition(this, ItemStats.ABILITIES, configKey, tag).enable("在聊天栏中输入您想要的值.");
 
 		if (event.getAction() == InventoryAction.PICKUP_HALF) {
 			if (getEditedSection().contains("ability." + configKey + "." + tag)) {
 				getEditedSection().set("ability." + configKey + "." + tag, null);
 				registerTemplateEdition();
-				player.sendMessage(MMOItems.plugin.getPrefix() + "Successfully reset " + ChatColor.GOLD + MMOUtils.caseOnWords(tag.replace("-", " "))
+				player.sendMessage(MMOItems.plugin.getPrefix() + "重置成功" + ChatColor.GOLD + UtilityMethods.caseOnWords(tag.replace("-", " "))
 						+ ChatColor.GRAY + ".");
 			}
 		}

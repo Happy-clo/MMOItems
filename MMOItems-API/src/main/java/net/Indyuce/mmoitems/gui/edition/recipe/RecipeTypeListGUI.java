@@ -32,8 +32,8 @@ import java.util.Set;
 public class RecipeTypeListGUI extends EditionInventory {
 
     // Item Stacks used in this inventory
-    @NotNull private static final ItemStack NEXT_PAGE = ItemFactory.of(Material.ARROW).name(FFPMMOItems.get().getExampleFormat() + "Next Page").build();
-    @NotNull private static final ItemStack PREVIOUS_PAGE = ItemFactory.of(Material.ARROW).name(FFPMMOItems.get().getExampleFormat() + "Previous Page").build();
+    @NotNull private static final ItemStack NEXT_PAGE = ItemFactory.of(Material.ARROW).name(FFPMMOItems.get().getExampleFormat() + "下一页").build();
+    @NotNull private static final ItemStack PREVIOUS_PAGE = ItemFactory.of(Material.ARROW).name(FFPMMOItems.get().getExampleFormat() + "上一页").build();
     @NotNull private static final ItemStack NO_RECIPE = ItemFactory.of(Material.LIGHT_GRAY_STAINED_GLASS_PANE).name("").build();
 
     /**
@@ -53,7 +53,7 @@ public class RecipeTypeListGUI extends EditionInventory {
 
     @Override
     public String getName() {
-        return "Choose Recipe Type";
+        return "选择配方类型";
     }
 
     /**

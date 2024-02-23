@@ -88,7 +88,7 @@ public class DoubleStat extends ItemStat<NumericStatFormula, DoubleData> impleme
         if (object instanceof ConfigurationSection)
             return new NumericStatFormula(object);
 
-        throw new IllegalArgumentException("Must specify a number or a config section");
+        throw new IllegalArgumentException("必须指定一个数字或配置部分");
     }
 
     @Override
@@ -200,8 +200,8 @@ public class DoubleStat extends ItemStat<NumericStatFormula, DoubleData> impleme
 
     @Override
     public void whenPreviewed(@NotNull ItemStackBuilder item, @NotNull DoubleData currentData, @NotNull NumericStatFormula templateData) throws IllegalArgumentException {
-        Validate.isTrue(currentData instanceof DoubleData, "Current Data is not Double Data");
-        Validate.isTrue(templateData instanceof NumericStatFormula, "Template Data is not Numeric Stat Formula");
+        Validate.isTrue(currentData instanceof DoubleData, "当前数据不是双精度数据");
+        Validate.isTrue(templateData instanceof NumericStatFormula, "模板数据不是数字统计公式");
 
         // Get Value
         //SPRD//MMOItems.log("\u00a7c༺\u00a77 Calulating deviations of \u00a7b" + item.getMMOItem().getType().toString() + " " + item.getMMOItem().getId() + "\u00a77's \u00a7e" + getId());
@@ -295,11 +295,11 @@ public class DoubleStat extends ItemStat<NumericStatFormula, DoubleData> impleme
         if (event.getAction() == InventoryAction.PICKUP_HALF) {
             inv.getEditedSection().set(getPath(), null);
             inv.registerTemplateEdition();
-            inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + "Successfully removed " + getName() + ChatColor.GRAY + ".");
+            inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + "成功删除 " + getName() + ChatColor.GRAY + ".");
             return;
         }
-        new StatEdition(inv, this).enable("Write in the chat the numeric value you want.",
-                "Second Format: {Base} {Scaling Value} {Spread} {Max Spread} {Hard Min} {Hard Max}", "Third Format: {Min Value} -> {Max Value}");
+        new StatEdition(inv, this).enable("在聊天中输入您想要的数值",
+                "第二种格式: {基础} {缩放值} {点差} {最大点差}", "第三种格式: {最小值} -> {最大值}");
     }
 
     @Override
@@ -307,7 +307,7 @@ public class DoubleStat extends ItemStat<NumericStatFormula, DoubleData> impleme
         final NumericStatFormula formula = new NumericStatFormula(message);
         formula.fillConfigurationSection(inv.getEditedSection(), getPath(), NumericStatFormula.FormulaSaveOption.DELETE_IF_ZERO);
         inv.registerTemplateEdition();
-        inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + getName() + " successfully changed to {"
+        inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + getName() + "成功更改为 { "
                 + formula.getBase() + " - " + formula.getScale() + " - " + formula.getSpread() + " - " + formula.getMaxSpread() + " - ("
                 + formula.getMin() + " -> " + formula.getMax() + ") }");
     }
@@ -317,24 +317,24 @@ public class DoubleStat extends ItemStat<NumericStatFormula, DoubleData> impleme
         if (statData.isPresent()) {
             NumericStatFormula data = statData.get();
             if (data.isUniform()) {
-                lore.add(ChatColor.GRAY + "Uniform: " + ChatColor.GREEN + DECIMAL_FORMAT.format(data.getMin()) + ChatColor.GRAY + " -> " + ChatColor.GREEN + DECIMAL_FORMAT.format(data.getMax()));
+                lore.add(ChatColor.GRAY + "更改: " + ChatColor.GREEN + DECIMAL_FORMAT.format(data.getMin()) + ChatColor.GRAY + " -> " + ChatColor.GREEN + DECIMAL_FORMAT.format(data.getMax()));
             } else {
-                lore.add(ChatColor.GRAY + "Base Value: " + ChatColor.GREEN + DECIMAL_FORMAT.format(data.getBase())
+                lore.add(ChatColor.GRAY + "基础值: " + ChatColor.GREEN + DECIMAL_FORMAT.format(data.getBase())
                         + (data.getScale() != 0 ? ChatColor.GRAY + " (+" + ChatColor.GREEN + DECIMAL_FORMAT.format(data.getScale()) + ChatColor.GRAY + "/Lvl)" : ""));
                 if (data.getSpread() > 0)
-                    lore.add(ChatColor.GRAY + "Spread: " + ChatColor.GREEN + DECIMAL_FORMAT.format(data.getSpread() * 100) + "%" + ChatColor.GRAY + " (Max: "
+                    lore.add(ChatColor.GRAY + "速度: " + ChatColor.GREEN + DECIMAL_FORMAT.format(data.getSpread() * 100) + "%" + ChatColor.GRAY + " (Max: "
                             + ChatColor.GREEN + DECIMAL_FORMAT.format(data.getMaxSpread() * 100) + "%" + ChatColor.GRAY + ")");
                 if (data.hasMin())
-                    lore.add(ChatColor.GRAY + "Min: " + ChatColor.GREEN + DECIMAL_FORMAT.format(data.getMin()));
+                    lore.add(ChatColor.GRAY + "最小: " + ChatColor.GREEN + DECIMAL_FORMAT.format(data.getMin()));
                 if (data.hasMax())
-                    lore.add(ChatColor.GRAY + "Max: " + ChatColor.GREEN + DECIMAL_FORMAT.format(data.getMax()));
+                    lore.add(ChatColor.GRAY + "最大: " + ChatColor.GREEN + DECIMAL_FORMAT.format(data.getMax()));
             }
         } else
-            lore.add(ChatColor.GRAY + "Current Value: " + ChatColor.GREEN + "---");
+            lore.add(ChatColor.GRAY + "当前值: " + ChatColor.GREEN + "---");
 
         lore.add("");
-        lore.add(ChatColor.YELLOW + AltChar.listDash + " Left click to change this value.");
-        lore.add(ChatColor.YELLOW + AltChar.listDash + " Right click to remove this value.");
+        lore.add(ChatColor.YELLOW + AltChar.listDash + " 左键单击可更改此值");
+        lore.add(ChatColor.YELLOW + AltChar.listDash + " 右键单击可删除该值");
     }
 
     @Override
@@ -415,13 +415,13 @@ public class DoubleStat extends ItemStat<NumericStatFormula, DoubleData> impleme
         public static DoubleUpgradeInfo GetFrom(@Nullable Object obj) throws IllegalArgumentException {
 
             // Shall not be null
-            Validate.notNull(obj, FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "Upgrade operation must not be null"));
+            Validate.notNull(obj, FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "升级操作不能为空"));
 
             // Does the string exist?
             String str = obj.toString();
             if (str.isEmpty()) {
                 throw new IllegalArgumentException(
-                        FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "Upgrade operation is empty"));
+                        FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "升级操作为空"));
             }
 
             // Adapt to PMP format

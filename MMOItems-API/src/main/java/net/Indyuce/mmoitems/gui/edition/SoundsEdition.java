@@ -1,5 +1,6 @@
 package net.Indyuce.mmoitems.gui.edition;
 
+import io.lumine.mythic.lib.UtilityMethods;
 import io.lumine.mythic.lib.api.util.AltChar;
 import net.Indyuce.mmoitems.ItemStats;
 import net.Indyuce.mmoitems.MMOItems;
@@ -11,7 +12,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -35,7 +35,7 @@ public class SoundsEdition extends EditionInventory {
 
 	@Override
 	public String getName() {
-		return "Custom Sounds: " + template.getId();
+		return "自定义声音: " + template.getId();
 	}
 
 	@Override
@@ -52,17 +52,17 @@ public class SoundsEdition extends EditionInventory {
 			String configSoundName = sound.getName().replace(" ", "-").toLowerCase();
 			String value = getEditedSection().getString("sounds." + configSoundName + ".sound");
 			if (value != null) {
-				eventLore.add(ChatColor.GRAY + "Current Values:");
-				eventLore.add(ChatColor.GRAY + " - Sound Name: '" + ChatColor.GREEN
+				eventLore.add(ChatColor.GRAY + "当前值:");
+				eventLore.add(ChatColor.GRAY + " - 声音名称: '" + ChatColor.GREEN
 						+ getEditedSection().getString("sounds." + configSoundName + ".sound") + ChatColor.GRAY + "'");
 				eventLore.add(
-						ChatColor.GRAY + " - Volume: " + ChatColor.GREEN + getEditedSection().getDouble("sounds." + configSoundName + ".volume"));
-				eventLore.add(ChatColor.GRAY + " - Pitch: " + ChatColor.GREEN + getEditedSection().getDouble("sounds." + configSoundName + ".pitch"));
+						ChatColor.GRAY + " - 音量: " + ChatColor.GREEN + getEditedSection().getDouble("sounds." + configSoundName + ".volume"));
+				eventLore.add(ChatColor.GRAY + " - 音调: " + ChatColor.GREEN + getEditedSection().getDouble("sounds." + configSoundName + ".pitch"));
 			} else
-				eventLore.add(ChatColor.GRAY + "Current Values: " + ChatColor.RED + "None");
+				eventLore.add(ChatColor.GRAY + "当前值: " + ChatColor.RED + "无");
 			eventLore.add("");
-			eventLore.add(ChatColor.YELLOW + AltChar.listDash + " Click to change this value.");
-			eventLore.add(ChatColor.YELLOW + AltChar.listDash + " Right click to remove this value.");
+			eventLore.add(ChatColor.YELLOW + AltChar.listDash + " 左键单击进行选择");
+			eventLore.add(ChatColor.YELLOW + AltChar.listDash + " 右键单击可删除该值");
 			soundEventMeta.setLore(eventLore);
 			soundEvent.setItemMeta(soundEventMeta);
 
@@ -80,9 +80,9 @@ public class SoundsEdition extends EditionInventory {
 
 		if (CORRESPONDING_SLOT.containsKey(event.getSlot())) {
 			if (event.getAction() == InventoryAction.PICKUP_ALL)
-				new StatEdition(this, ItemStats.CUSTOM_SOUNDS, CORRESPONDING_SLOT.get(event.getSlot())).enable("Write in the chat the custom sound you want to add.",
-						ChatColor.AQUA + "Format: [SOUND NAME] [VOLUME] [PITCH]",
-						ChatColor.AQUA + "Example: entity.generic.drink 1 1");
+				new StatEdition(this, ItemStats.CUSTOM_SOUNDS, CORRESPONDING_SLOT.get(event.getSlot())).enable("在聊天中输入您要添加的自定义声音名称",
+						ChatColor.AQUA + "格式: [SOUND NAME] [VOLUME] [PITCH]",
+						ChatColor.AQUA + "示例: entity.generic.drink 1 1");
 
 			if (event.getAction() == InventoryAction.PICKUP_HALF) {
 				String soundPath = CORRESPONDING_SLOT.get(event.getSlot());
@@ -97,8 +97,8 @@ public class SoundsEdition extends EditionInventory {
 				}
 
 				registerTemplateEdition();
-				player.sendMessage(MMOItems.plugin.getPrefix() + ChatColor.RED + MMOUtils.caseOnWords(soundPath.replace("-", " ")) + " Sound"
-						+ ChatColor.GRAY + " successfully removed.");
+				player.sendMessage(MMOItems.plugin.getPrefix() + ChatColor.RED + UtilityMethods.caseOnWords(soundPath.replace("-", " ")) + " 声音"
+						+ ChatColor.GRAY + " 成功删除");
 			}
 		}
 	}

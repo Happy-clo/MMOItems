@@ -31,7 +31,7 @@ public class AbilityListEdition extends EditionInventory {
 
 	@Override
 	public String getName() {
-		return "Ability List";
+		return "技能列表";
 	}
 
 	@Override
@@ -55,11 +55,11 @@ public class AbilityListEdition extends EditionInventory {
 
 				ItemStack abilityItem = new ItemStack(Material.BLAZE_POWDER);
 				ItemMeta abilityItemMeta = abilityItem.getItemMeta();
-				abilityItemMeta.setDisplayName(ability != null ? ChatColor.GREEN + ability.getName() : ChatColor.RED + "! No Ability Selected !");
+				abilityItemMeta.setDisplayName(ability != null ? ChatColor.GREEN + ability.getName() : ChatColor.RED + "! 没有选择技能 !");
 				List<String> abilityItemLore = new ArrayList<>();
 				abilityItemLore.add("");
 				abilityItemLore.add(
-						ChatColor.GRAY + "Cast Mode: " + (castMode != null ? ChatColor.GOLD + castMode.getName() : ChatColor.RED + "Not Selected"));
+						ChatColor.GRAY + "投射模式: " + (castMode != null ? ChatColor.GOLD + castMode.getName() : ChatColor.RED + "未选择"));
 				abilityItemLore.add("");
 
 				boolean check = false;
@@ -68,18 +68,18 @@ public class AbilityListEdition extends EditionInventory {
 						if (!modifier.equals("type") && !modifier.equals("mode") && ability.getHandler().getModifiers().contains(modifier))
 							try {
 								abilityItemLore.add(
-										ChatColor.GRAY + "* " + MMOUtils.caseOnWords(modifier.toLowerCase().replace("-", " ")) + ": " + ChatColor.GOLD
+										ChatColor.GRAY + "* " + UtilityMethods.caseOnWords(modifier.toLowerCase().replace("-", " ")) + ": " + ChatColor.GOLD
 												+ new NumericStatFormula(getEditedSection().get("ability." + key + "." + modifier)).toString());
 								check = true;
 							} catch (IllegalArgumentException exception) {
-								abilityItemLore.add(ChatColor.GRAY + "* " + MMOUtils.caseOnWords(modifier.toLowerCase().replace("-", " ")) + ": "
-										+ ChatColor.GOLD + "Unreadable");
+								abilityItemLore.add(ChatColor.GRAY + "* " + UtilityMethods.caseOnWords(modifier.toLowerCase().replace("-", " ")) + ": "
+										+ ChatColor.GOLD + "无法读取技能");
 							}
 				if (check)
 					abilityItemLore.add("");
 
-				abilityItemLore.add(ChatColor.YELLOW + AltChar.listDash + " Left click to edit.");
-				abilityItemLore.add(ChatColor.YELLOW + AltChar.listDash + " Right click to remove.");
+				abilityItemLore.add(ChatColor.YELLOW + AltChar.listDash + " 左键单击进行编辑");
+				abilityItemLore.add(ChatColor.YELLOW + AltChar.listDash + " 右键单击即可删除");
 				abilityItemMeta.setLore(abilityItemLore);
 				abilityItem.setItemMeta(abilityItemMeta);
 
@@ -90,12 +90,12 @@ public class AbilityListEdition extends EditionInventory {
 
 		ItemStack glass = VersionMaterial.GRAY_STAINED_GLASS_PANE.toItem();
 		ItemMeta glassMeta = glass.getItemMeta();
-		glassMeta.setDisplayName(ChatColor.RED + "- No Ability -");
+		glassMeta.setDisplayName(ChatColor.RED + "- 无技能 -");
 		glass.setItemMeta(glassMeta);
 
 		ItemStack add = new ItemStack(VersionMaterial.WRITABLE_BOOK.toMaterial());
 		ItemMeta addMeta = add.getItemMeta();
-		addMeta.setDisplayName(ChatColor.GREEN + "Add an ability...");
+		addMeta.setDisplayName(ChatColor.GREEN + "添加技能...");
 		add.setItemMeta(addMeta);
 
 		inventory.setItem(40, add);
@@ -111,7 +111,7 @@ public class AbilityListEdition extends EditionInventory {
 		if (event.getInventory() != event.getClickedInventory() || !MMOUtils.isMetaItem(item, false))
 			return;
 
-		if (item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Add an ability...")) {
+		if (item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "添加技能...")) {
 			if (!getEditedSection().contains("ability")) {
 				getEditedSection().createSection("ability.ability1");
 				registerTemplateEdition();
@@ -119,7 +119,7 @@ public class AbilityListEdition extends EditionInventory {
 			}
 
 			if (getEditedSection().getConfigurationSection("ability").getKeys(false).size() > 6) {
-				player.sendMessage(MMOItems.plugin.getPrefix() + ChatColor.RED + "You've hit the 7 abilities per item limit.");
+				player.sendMessage(MMOItems.plugin.getPrefix() + ChatColor.RED + "您已达到每件物品 7 个技能的限制");
 				return;
 			}
 
@@ -142,8 +142,8 @@ public class AbilityListEdition extends EditionInventory {
 			if (getEditedSection().contains("ability") && getEditedSection().getConfigurationSection("ability").contains(tag)) {
 				getEditedSection().set("ability." + tag, null);
 				registerTemplateEdition();
-				player.sendMessage(MMOItems.plugin.getPrefix() + "Successfully removed " + ChatColor.GOLD + tag + ChatColor.DARK_GRAY
-						+ " (Internal ID)" + ChatColor.GRAY + ".");
+				player.sendMessage(MMOItems.plugin.getPrefix() + "成功移除 " + ChatColor.GOLD + tag + ChatColor.DARK_GRAY
+						+ " (内部 ID)" + ChatColor.GRAY + ".");
 			}
 		}
 	}

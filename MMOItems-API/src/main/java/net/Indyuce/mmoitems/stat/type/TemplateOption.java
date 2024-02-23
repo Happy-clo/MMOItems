@@ -34,14 +34,14 @@ public interface TemplateOption {
      */
     @Nullable
     public default StringData getLoadedNBT(@NotNull ArrayList<ItemTag> storedTags) {
-        throw new RuntimeException("Not supported");
+        throw new RuntimeException("不支持");
     }
 
     /**
      * This stat is not saved onto items. This method is empty.
      */
     public default void whenApplied(@NotNull ItemStackBuilder item, @NotNull StringData data) {
-        throw new RuntimeException("Not supported");
+        throw new RuntimeException("不支持");
     }
 
     /**
@@ -49,6 +49,6 @@ public interface TemplateOption {
      */
     @NotNull
     public default ArrayList<ItemTag> getAppliedNBT(@NotNull StringData data) {
-        throw new RuntimeException("Not supported");
+        throw new RuntimeException("不支持");
     }
 }

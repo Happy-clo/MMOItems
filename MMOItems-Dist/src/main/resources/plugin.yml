@@ -12,7 +12,7 @@ commands:
         aliases: [mi]
     updateitem:
         description: 更新手持物品。
-        aliases: [upitem, itemup]
+        aliases: [upitem,itemup]
         permission: mmoitems.update
 
 permissions:

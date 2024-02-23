@@ -2,6 +2,7 @@ package net.Indyuce.mmoitems.stat;
 
 import com.google.gson.*;
 import io.lumine.mythic.lib.MythicLib;
+import io.lumine.mythic.lib.UtilityMethods;
 import io.lumine.mythic.lib.api.item.ItemTag;
 import io.lumine.mythic.lib.api.item.SupportedNBTTagValues;
 import io.lumine.mythic.lib.api.util.AltChar;
@@ -34,13 +35,13 @@ import java.util.Optional;
 
 public class Abilities extends ItemStat<RandomAbilityListData, AbilityListData> {
     public Abilities() {
-        super("ABILITY", Material.BLAZE_POWDER, "Item Abilities",
-                new String[]{"Make your item cast amazing abilities", "to kill monsters or buff yourself."}, new String[]{"!block", "all"});
+        super("ABILITY", Material.BLAZE_POWDER, "物品技能",
+                new String[]{"让你的物品施展惊人的技能", "杀死怪物或增强自己"}, new String[]{"!block", "all"});
     }
 
     @Override
     public RandomAbilityListData whenInitialized(Object object) {
-        Validate.isTrue(object instanceof ConfigurationSection, "Must specify a valid config section");
+        Validate.isTrue(object instanceof ConfigurationSection, "必须指定有效的配置部分");
         ConfigurationSection config = (ConfigurationSection) object;
         RandomAbilityListData list = new RandomAbilityListData();
 
@@ -183,14 +184,14 @@ public class Abilities extends ItemStat<RandomAbilityListData, AbilityListData> 
 
         if (edited.equals("ability")) {
             Validate.isTrue(MMOItems.plugin.getSkills().hasSkill(format),
-                    "format is not a valid ability! You may check the ability list using /mi list ability.");
+                    "格式不是有效的技能！您可以使用 /mi list ability 检查技能列表。");
             RegisteredSkill ability = MMOItems.plugin.getSkills().getSkill(format);
 
             inv.getEditedSection().set("ability." + configKey, null);
             inv.getEditedSection().set("ability." + configKey + ".type", format);
             inv.registerTemplateEdition();
             inv.getPlayer().sendMessage(
-                    MMOItems.plugin.getPrefix() + "Successfully set the ability to " + ChatColor.GOLD + ability.getName() + ChatColor.GRAY + ".");
+                    MMOItems.plugin.getPrefix() + "成功设置技能为 " + ChatColor.GOLD + ability.getName() + ChatColor.GRAY + ".");
             return;
         }
 
@@ -200,7 +201,7 @@ public class Abilities extends ItemStat<RandomAbilityListData, AbilityListData> 
 
             inv.getEditedSection().set("ability." + configKey + ".mode", castMode.name());
             inv.registerTemplateEdition();
-            inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + "Successfully set the trigger to " + ChatColor.GOLD + castMode.getName()
+            inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + "成功设置触发器为 " + ChatColor.GOLD + castMode.getName()
                     + ChatColor.GRAY + ".");
             return;
         }
@@ -208,16 +209,16 @@ public class Abilities extends ItemStat<RandomAbilityListData, AbilityListData> 
         new NumericStatFormula(message).fillConfigurationSection(inv.getEditedSection(), "ability." + configKey + "." + edited,
                 FormulaSaveOption.NONE);
         inv.registerTemplateEdition();
-        inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + ChatColor.GOLD + MMOUtils.caseOnWords(edited.replace("-", " ")) + ChatColor.GRAY
-                + " successfully added.");
+        inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + ChatColor.GOLD + UtilityMethods.caseOnWords(edited.replace("-", " ")) + ChatColor.GRAY
+                + " 添加成功");
     }
 
     @Override
     public void whenDisplayed(List<String> lore, Optional<RandomAbilityListData> statData) {
-        lore.add(ChatColor.GRAY + "Current Abilities: " + ChatColor.GOLD
+        lore.add(ChatColor.GRAY + "当前技能: " + ChatColor.GOLD
                 + (statData.isPresent() ? statData.get().getAbilities().size() : 0));
         lore.add("");
-        lore.add(ChatColor.YELLOW + AltChar.listDash + " Click to edit the item abilities.");
+        lore.add(ChatColor.YELLOW + AltChar.listDash + " 单击以编辑物品技能");
     }
 
     @NotNull

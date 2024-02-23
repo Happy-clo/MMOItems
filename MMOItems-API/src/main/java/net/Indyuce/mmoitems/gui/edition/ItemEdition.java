@@ -13,7 +13,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -21,6 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ItemEdition extends EditionInventory {
     private static final int[] slots = {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
@@ -31,7 +31,7 @@ public class ItemEdition extends EditionInventory {
 
     @Override
     public String getName() {
-        return "Item Edition: " + getEdited().getId();
+        return "编辑物品: " + getEdited().getId();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ItemEdition extends EditionInventory {
          * the for loop will just let some slots empty
          */
         List<ItemStat> appliable = new ArrayList<>(getEdited().getType().getAvailableStats()).stream()
-                .filter(stat -> stat.hasValidMaterial(getCachedItem()) && !(stat instanceof InternalStat)).toList();
+                .filter(stat -> stat.hasValidMaterial(getCachedItem()) && !(stat instanceof InternalStat)).collect(Collectors.toList());
 
         for (int j = min; j < Math.min(appliable.size(), max); j++) {
             ItemStat stat = appliable.get(j);
@@ -53,7 +53,7 @@ public class ItemEdition extends EditionInventory {
             ItemMeta meta = item.getItemMeta();
             meta.addItemFlags(ItemFlag.values());
             meta.setDisplayName(ChatColor.GREEN + stat.getName());
-            List<String> lore = MythicLib.plugin.parseColors(Arrays.stream(stat.getLore()).map(s -> ChatColor.GRAY + s).toList());
+            List<String> lore = MythicLib.plugin.parseColors(Arrays.stream(stat.getLore()).map(s -> ChatColor.GRAY + s).collect(Collectors.toList()));
             lore.add("");
 
             stat.whenDisplayed(lore, getEventualStatData(stat));
@@ -65,17 +65,17 @@ public class ItemEdition extends EditionInventory {
 
         ItemStack glass = VersionMaterial.GRAY_STAINED_GLASS_PANE.toItem();
         ItemMeta glassMeta = glass.getItemMeta();
-        glassMeta.setDisplayName(ChatColor.RED + "- No Item Stat -");
+        glassMeta.setDisplayName(ChatColor.RED + "- 无物品编号 -");
         glass.setItemMeta(glassMeta);
 
         ItemStack next = new ItemStack(Material.ARROW);
         ItemMeta nextMeta = next.getItemMeta();
-        nextMeta.setDisplayName(ChatColor.GREEN + "Next Page");
+        nextMeta.setDisplayName(ChatColor.GREEN + "下一页");
         next.setItemMeta(nextMeta);
 
         ItemStack previous = new ItemStack(Material.ARROW);
         ItemMeta previousMeta = previous.getItemMeta();
-        previousMeta.setDisplayName(ChatColor.GREEN + "Previous Page");
+        previousMeta.setDisplayName(ChatColor.GREEN + "上一页");
         previous.setItemMeta(previousMeta);
 
         while (n < slots.length)
@@ -94,12 +94,12 @@ public class ItemEdition extends EditionInventory {
         if (!MMOUtils.isMetaItem(item, false) || event.getInventory().getItem(4) == null)
             return;
 
-        if (item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Next Page")) {
+        if (item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "下一页")) {
             page++;
             refreshInventory();
         }
 
-        if (item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Previous Page")) {
+        if (item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "上一页")) {
             page--;
             refreshInventory();
         }
@@ -113,7 +113,7 @@ public class ItemEdition extends EditionInventory {
         if (MMOItems.plugin.hasPermissions() && MMOItems.plugin.getLanguage().opStatsEnabled
                 && MMOItems.plugin.getLanguage().opStats.contains(edited.getId())
                 && !MMOItems.plugin.getVault().getPermissions().has((Player) event.getWhoClicked(), "mmoitems.edit.op")) {
-            event.getWhoClicked().sendMessage(ChatColor.RED + "You are lacking permission to edit this stat.");
+            event.getWhoClicked().sendMessage(ChatColor.RED + "您没有编辑此属性数据的权限.");
             return;
         }
 

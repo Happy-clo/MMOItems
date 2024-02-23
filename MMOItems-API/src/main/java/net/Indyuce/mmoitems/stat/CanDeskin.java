@@ -20,7 +20,7 @@ import net.Indyuce.mmoitems.stat.data.SkullTextureData;
 import net.Indyuce.mmoitems.stat.type.BooleanStat;
 import net.Indyuce.mmoitems.stat.type.ConsumableItemInteraction;
 import net.Indyuce.mmoitems.util.MMOUtils;
-import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -37,8 +37,8 @@ import java.util.logging.Level;
 
 public class CanDeskin extends BooleanStat implements ConsumableItemInteraction {
     public CanDeskin() {
-        super("CAN_DESKIN", Material.LEATHER, "Can Deskin?",
-                new String[]{"Players can deskin their item", "and get their skin back", "from the item."}, new String[]{"consumable"});
+        super("CAN_DESKIN", Material.LEATHER, "能否提取皮肤",
+                new String[]{"玩家可以去掉物品的皮肤", "并从物品上取回皮肤", "(没试过卸下皮肤)"}, new String[]{"consumable"});
     }
 
     @Override
@@ -88,7 +88,7 @@ public class CanDeskin extends BooleanStat implements ConsumableItemInteraction 
                     profileField.setAccessible(true);
                     profileField.set(targetItemMeta, ((SkullTextureData) originalMmoitem.getData(ItemStats.SKULL_TEXTURE)).getGameProfile());
                 } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
-                    MMOItems.plugin.getLogger().warning("Could not read skull texture");
+                    MMOItems.plugin.getLogger().warning("无法读取头颅纹理");
                 }
             }
 
@@ -103,17 +103,17 @@ public class CanDeskin extends BooleanStat implements ConsumableItemInteraction 
                 // Try to find the skin item.
                 // This is for backwards compatibility as cases with SKIN subtypes were not handled
                 // in the past, inducing an unfixable data loss for item skins applied onto items
-                @BackwardsCompatibility(version = "unknown") final String skinTypeId = target.getString(ItemSkin.SKIN_TYPE_TAG);
+                @Deprecated final String skinTypeId = target.getString(ItemSkin.SKIN_TYPE_TAG);
                 final Type type = Objects.requireNonNullElse(Type.get(skinTypeId), Type.SKIN);
-                Validate.notNull(type, "Could not find item type of applied skin");
+                Validate.notNull(type, "找不到应用皮肤的物品类型");
                 final MMOItemTemplate template = MMOItems.plugin.getTemplates().getTemplateOrThrow(Type.SKIN, skinId);
-                Validate.notNull(template, "Could not find item template of applied skin");
+                Validate.notNull(template, "找不到应用皮肤的物品模板");
 
                 // Item found, giving it to the player
                 final MMOItem mmoitem = template.newBuilder(playerData.getRPG()).build();
                 new SmartGive(player).give(mmoitem.newBuilder().build());
             } catch (Exception exception) {
-                MMOItems.plugin.getLogger().log(Level.INFO, "Could not retrieve item skin with ID '" + skinId + "' for player " + playerData.getUniqueId());
+                MMOItems.plugin.getLogger().log(Level.INFO, "无法检索玩家 ID 为 '" + skinId + "' 的物品皮肤" + playerData.getUniqueId());
                 // No luck :(
             }
 

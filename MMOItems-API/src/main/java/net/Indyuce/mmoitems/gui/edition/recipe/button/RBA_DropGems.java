@@ -26,8 +26,8 @@ public class RBA_DropGems extends RBA_BooleanButton {
     public static final String SMITH_GEMS = "drop-gems";
     @NotNull @Override public String getBooleanConfigPath() { return SMITH_GEMS; }
 
-    @NotNull final ItemStack booleanButton = ItemFactory.of(Material.EMERALD).name("\u00a7aDrop Gemstones").lore(SilentNumbers.chop(
-            "Usually, gemstones that dont fit the new item are lost. Enable this to make them drop (and be recovered) instead."
+    @NotNull final ItemStack booleanButton = ItemFactory.of(Material.EMERALD).name("\u00a7a掉落宝石").lore(SilentNumbers.chop(
+            "通常，新物品无法镶嵌的宝石会消失.启用此功能可使宝石掉落而不是消失（并被找回）."
             , 65, "\u00a77")).build();
     @NotNull @Override public ItemStack getBooleanButton() { return booleanButton; }
 }

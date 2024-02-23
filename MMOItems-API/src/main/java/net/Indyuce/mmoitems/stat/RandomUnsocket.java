@@ -41,8 +41,8 @@ import java.util.logging.Level;
  */
 public class RandomUnsocket extends DoubleStat implements ConsumableItemInteraction {
     public RandomUnsocket() {
-        super("RANDOM_UNSOCKET", Material.BOWL, "Random Unsocket",
-                new String[] { "Number of gems (rounded down)", "that will pop out of an item when", "this is applied." },
+        super("RANDOM_UNSOCKET", Material.BOWL, "宝石拆卸",
+                new String[] { "开启此设置时", "该消耗品可以随机", "取下镶嵌的宝石 (向下取整)" },
                 new String[] { "consumable" });
     }
 
@@ -136,7 +136,7 @@ public class RandomUnsocket extends DoubleStat implements ConsumableItemInteract
                     Message.RANDOM_UNSOCKET_SUCCESS.format(ChatColor.YELLOW, "#item#", MMOUtils.getDisplayName(event.getCurrentItem()), "#gem#", MMOUtils.getDisplayName(builtGem)).send(player);
                 }
 
-            } catch (Throwable e) { MMOItems.print(Level.WARNING, "Could not unsocket gem from item $u{0}$b: $f{1}", "Stat \u00a7eRandom Unsocket", SilentNumbers.getItemName(event.getCurrentItem()), e.getMessage()); }
+            } catch (Throwable e) { MMOItems.print(Level.WARNING, "无法从物品 $u{0}$b: $f{1} 中拔出宝石", "属性 §e 随机拔出", SilentNumbers.getItemName(event.getCurrentItem()), e.getMessage()); }
         }
 
         // Replace

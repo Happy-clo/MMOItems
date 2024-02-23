@@ -32,9 +32,9 @@ import java.util.UUID;
  */
 public class RecipeListGUI extends EditionInventory {
 
-    @NotNull final ItemStack nextPage = ItemFactory.of(Material.ARROW).name("\u00a77Next Page").build();
-    @NotNull final ItemStack prevPage = ItemFactory.of(Material.ARROW).name("\u00a77Previous Page").build();
-    @NotNull final ItemStack noRecipe = ItemFactory.of(Material.BLACK_STAINED_GLASS_PANE).name("\u00a77No Recipe").build();
+    @NotNull final ItemStack nextPage = ItemFactory.of(Material.ARROW).name("\u00a77下一页").build();
+    @NotNull final ItemStack prevPage = ItemFactory.of(Material.ARROW).name("\u00a77上一页").build();
+    @NotNull final ItemStack noRecipe = ItemFactory.of(Material.BLACK_STAINED_GLASS_PANE).name("\u00a77没有合成配方").build();
 
     @NotNull final RecipeRegistry recipeType;
     @NotNull public RecipeRegistry getRecipeRegistry() { return recipeType; }
@@ -69,7 +69,7 @@ public class RecipeListGUI extends EditionInventory {
 
     @Override
     public String getName() {
-        return "Choose " + getRecipeRegistry().getRecipeTypeName() + " Recipe";
+        return "选择 " + getRecipeRegistry().getRecipeTypeName() + " 配方";
     }
 
     /**
@@ -112,7 +112,7 @@ public class RecipeListGUI extends EditionInventory {
             if (p == recipeNames.size()) {
 
                 // Rename list item...
-                inventory.setItem(absolute, RecipeEditorGUI.rename(new ItemStack(Material.NETHER_STAR),   FFPMMOItems.get().getBodyFormat() + "Create new " + SilentNumbers.getItemName(getListedItem(), false)));
+                inventory.setItem(absolute, RecipeEditorGUI.rename(new ItemStack(Material.NETHER_STAR),   FFPMMOItems.get().getBodyFormat() + "新建配方 " + SilentNumbers.getItemName(getListedItem(), false)));
 
                 // If this slot is clicked, a new recipe will be created.
                 createSlot = absolute;
@@ -127,7 +127,7 @@ public class RecipeListGUI extends EditionInventory {
             } else {
 
                 // Display name
-                inventory.setItem(absolute, RecipeEditorGUI.rename(getListedItem().clone(),  FFPMMOItems.get().getBodyFormat() + "Edit " + FFPMMOItems.get().getInputFormat() + recipeNames.get(p)));
+                inventory.setItem(absolute, RecipeEditorGUI.rename(getListedItem().clone(),  FFPMMOItems.get().getBodyFormat() + "编辑 " + FFPMMOItems.get().getInputFormat() + recipeNames.get(p)));
 
                 // Store
                 recipeMap.put(absolute, recipeNames.get(p));

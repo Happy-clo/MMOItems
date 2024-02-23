@@ -34,7 +34,7 @@ public class RMGRR_Shapeless implements RecipeRegistry {
     @NotNull @Override public String getRecipeTypeName() { return "Shapeless"; }
     @NotNull @Override public String getRecipeConfigPath() { return "shapeless"; }
 
-    @NotNull final ItemStack displayListItem = RecipeEditorGUI.rename(new ItemStack(Material.OAK_LOG), FFPMMOItems.get().getExampleFormat() + "Shapeless Recipe");
+    @NotNull final ItemStack displayListItem = RecipeEditorGUI.rename(new ItemStack(Material.OAK_LOG), FFPMMOItems.get().getExampleFormat() + "无序合成配方");
     @NotNull @Override public ItemStack getDisplayListItem() { return displayListItem; }
 
     @Override public void openForPlayer(@NotNull EditionInventory inv, @NotNull String recipeName, Object... otherParams) {
@@ -51,7 +51,7 @@ public class RMGRR_Shapeless implements RecipeRegistry {
         // Read some values
         ConfigurationSection recipeSection = RecipeEditorGUI.getSection(recipeTypeSection, recipeName);
         NamespacedKey nk = namespace.getValue();
-        if (nk == null) { throw new IllegalArgumentException(FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "Illegal (Null) Namespace")); }
+        if (nk == null) { throw new IllegalArgumentException(FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "非法 (空) 命名空间")); }
 
         //region Identify the input
         ArrayList<MythicRecipeIngredient> poofs = new ArrayList<>();
@@ -74,7 +74,7 @@ public class RMGRR_Shapeless implements RecipeRegistry {
             nonAirFound = true;
             poofs.add(new MythicRecipeIngredient(p));
         }
-        if (!nonAirFound) { throw new IllegalArgumentException(FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "Shapeless recipe containing only AIR, $fignored$b.")); }
+        if (!nonAirFound) { throw new IllegalArgumentException(FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "含有空气的无序配方, $f已忽略$b.")); }
         ShapelessRecipe input = new ShapelessRecipe(nk.getKey(), poofs);
         //endregion
 

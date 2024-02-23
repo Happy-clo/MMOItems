@@ -29,13 +29,13 @@ public class Commands extends ItemStat<CommandListData, CommandListData> {
     private static final int MAXIMUM_COMMANDS = 15;
 
     public Commands() {
-        super("COMMANDS", VersionMaterial.COMMAND_BLOCK_MINECART.toMaterial(), "Commands",
-                new String[]{"The commands your item", "performs when right clicked."}, new String[]{"!armor", "!block", "!gem_stone", "all"});
+        super("COMMANDS", VersionMaterial.COMMAND_BLOCK_MINECART.toMaterial(), "命令",
+                new String[]{"右键单击物品时", "执行的命令"}, new String[]{"!armor", "!block", "!gem_stone", "all"});
     }
 
     @Override
     public CommandListData whenInitialized(Object object) {
-        Validate.isTrue(object instanceof ConfigurationSection, "Must specify a config section");
+        Validate.isTrue(object instanceof ConfigurationSection, "必须指定配置部分");
         ConfigurationSection config = (ConfigurationSection) object;
 
         CommandListData list = new CommandListData();
@@ -58,7 +58,7 @@ public class Commands extends ItemStat<CommandListData, CommandListData> {
     public void whenInput(@NotNull EditionInventory inv, @NotNull String message, Object... info) {
         if (inv.getEditedSection().contains("commands"))
             if (inv.getEditedSection().getConfigurationSection("commands").getKeys(false).size() >= MAXIMUM_COMMANDS) {
-                inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + "Your item has reached the " + MAXIMUM_COMMANDS + " commands limit.");
+                inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + "物品已达到最大 " + MAXIMUM_COMMANDS + " 条命令限制.");
                 return;
             }
 
@@ -100,15 +100,15 @@ public class Commands extends ItemStat<CommandListData, CommandListData> {
         inv.getEditedSection().set("commands." + path + ".console", console ? console : null);
         inv.getEditedSection().set("commands." + path + ".op", op ? op : null);
         inv.registerTemplateEdition();
-        inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + "Command successfully registered.");
+        inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + "命令注册成功。");
     }
 
     @Override
     public void whenDisplayed(List<String> lore, Optional<CommandListData> statData) {
-        lore.add(ChatColor.GRAY + "Current Commands: " + ChatColor.RED
+        lore.add(ChatColor.GRAY + "当前命令: " + ChatColor.RED
                 + (statData.isPresent() ? ((CommandListData) statData.get()).getCommands().size() : "0"));
         lore.add("");
-        lore.add(ChatColor.YELLOW + AltChar.listDash + " Click to edit item commands.");
+        lore.add(ChatColor.YELLOW + AltChar.listDash + " 单击可编辑物品命令");
     }
 
     @Override

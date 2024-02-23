@@ -35,7 +35,7 @@ public class RMGRR_SuperShaped implements RecipeRegistry {
     @Override public String getRecipeConfigPath() { return "supershaped"; }
     @NotNull @Override public String getRecipeTypeName() { return "Super Shaped"; }
 
-    @NotNull final ItemStack displayListItem = RecipeEditorGUI.rename(new ItemStack(Material.NOTE_BLOCK), FFPMMOItems.get().getExampleFormat() + "Super Shaped Recipe");
+    @NotNull final ItemStack displayListItem = RecipeEditorGUI.rename(new ItemStack(Material.NOTE_BLOCK), FFPMMOItems.get().getExampleFormat() + "超级有序合成配方");
     @NotNull @Override public ItemStack getDisplayListItem() { return displayListItem; }
 
     @Override public void openForPlayer(@NotNull EditionInventory inv, @NotNull String recipeName, Object... otherParams) {
@@ -50,11 +50,11 @@ public class RMGRR_SuperShaped implements RecipeRegistry {
         ConfigurationSection recipeSection = RecipeEditorGUI.moveInput(recipeTypeSection, recipeName);
 
         NamespacedKey nk = namespace.getValue();
-        if (nk == null) { throw new IllegalArgumentException(FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "Illegal (Null) Namespace")); }
+        if (nk == null) { throw new IllegalArgumentException(FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "非法 (空) 命名空间")); }
 
         // Identify the input
         ShapedRecipe input = superShapedRecipeFromList(nk.getKey(), new ArrayList<>(recipeSection.getStringList(RecipeEditorGUI.INPUT_INGREDIENTS)), ffp);
-        if (input == null) { throw new IllegalArgumentException(FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "Shaped recipe containing only AIR, $fignored$b.")); }
+        if (input == null) { throw new IllegalArgumentException(FriendlyFeedbackProvider.quickForConsole(FFPMMOItems.get(), "含有空气的超级配方, $f已忽略$b.")); }
 
         // Read the options and output
         ShapedRecipe output = superShapedRecipeFromList(nk.getKey(), new ArrayList<>(recipeSection.getStringList(RecipeEditorGUI.OUTPUT_INGREDIENTS)), ffp);
@@ -152,7 +152,7 @@ public class RMGRR_SuperShaped implements RecipeRegistry {
             }
 
             // Size not 3? BRUH
-            if (positions.length != 5) { throw new IllegalArgumentException("Invalid super crafting table row $u" + updatedRow + "$b ($fNot exactly 5 ingredients wide$b)."); }
+            if (positions.length != 5) { throw new IllegalArgumentException("超级合成配方第 $u 行无效" + updatedRow + "$b ($f不完全是 5 个格子的长宽度$b)."); }
 
             // Identify
             ProvidedUIFilter left = RecipeEditorGUI.readIngredientFrom(positions[0], ffp);
