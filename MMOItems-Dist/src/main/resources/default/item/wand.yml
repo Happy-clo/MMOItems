@@ -1,7 +1,7 @@
 OAK_WAND:
   base:
     material: STICK
-    name: '&f橡木法杖'
+    name: '&f<wood> Wand'
     required-level: 1.0
     range: 20.0
     attack-damage:
@@ -58,10 +58,10 @@ BLAZE_WAND:
     gem-sockets:
       - Nether
       - Nether
-    name: '&c&l烈焰法杖'
+    name: '&c&lBlaze Wand'
     disable-crafting: true
     lore:
-      - §e像女冒险家一样热辣。
+      - §eAh yeah, that's hot.
     crafting:
       shaped:
         '1':
@@ -125,8 +125,8 @@ COSMOS_WAND:
         mode: RIGHT_CLICK
         cooldown: 8.0
     lore:
-      - §b§l§o“整个宇宙将为你闪烁。”——《三体》
-    name: §5§l宇宙法杖
+      - §b§l§o"The stars are yours!"
+    name: §5§lCosmic Wand
     upgrade:
       max: 10
       template: weapon-default
@@ -144,7 +144,7 @@ COSMOS_WAND:
 SPELLCASTER_WAND:
   base:
     material: STICK
-    name: §d魔咒师的法杖
+    name: §dSpellcaster Wand
     required-level: 1.0
     required-class:
       - Mage
@@ -179,4 +179,4 @@ SPELLCASTER_WAND:
     mana-cost: 3.0
     set: SPELLCASTER
     lore:
-      - §7§o“你是个巫师，哈利。”
+      - §7§o"You're a wizard, Harry."

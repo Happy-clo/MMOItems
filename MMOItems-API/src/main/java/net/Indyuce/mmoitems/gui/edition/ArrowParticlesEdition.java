@@ -1,5 +1,6 @@
 package net.Indyuce.mmoitems.gui.edition;
 
+import io.lumine.mythic.lib.UtilityMethods;
 import io.lumine.mythic.lib.api.util.AltChar;
 import io.lumine.mythic.lib.version.VersionMaterial;
 import net.Indyuce.mmoitems.ItemStats;
@@ -45,7 +46,7 @@ public class ArrowParticlesEdition extends EditionInventory {
 		particleItemLore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "arrow. Fades away when the arrow lands.");
 		particleItemLore.add("");
 		particleItemLore.add(ChatColor.GRAY + "Current Value: " + (particle == null ? ChatColor.RED + "No particle selected."
-				: ChatColor.GOLD + MMOUtils.caseOnWords(particle.name().toLowerCase().replace("_", " "))));
+				: ChatColor.GOLD + UtilityMethods.caseOnWords(particle.name().toLowerCase().replace("_", " "))));
 		particleItemLore.add("");
 		particleItemLore.add(ChatColor.YELLOW + AltChar.listDash + " Click to change this value.");
 		particleItemLore.add(ChatColor.YELLOW + AltChar.listDash + " Right click to reset.");
@@ -158,7 +159,7 @@ public class ArrowParticlesEdition extends EditionInventory {
 		}
 
 		for (String string : new String[] { "amount", "offset", "speed" })
-			if (item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + MMOUtils.caseOnWords(string))) {
+			if (item.getItemMeta().getDisplayName().equals(ChatColor.GREEN + UtilityMethods.caseOnWords(string))) {
 				if (event.getAction() == InventoryAction.PICKUP_ALL)
 					new StatEdition(this, ItemStats.ARROW_PARTICLES, string).enable("Write in the chat the " + string + " you want.");
 

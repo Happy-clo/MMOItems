@@ -1,12 +1,11 @@
 package net.Indyuce.mmoitems.manager;
 
 import io.lumine.mythic.lib.MythicLib;
+import io.lumine.mythic.lib.UtilityMethods;
 import io.lumine.mythic.lib.skill.handler.SkillHandler;
 import net.Indyuce.mmoitems.MMOItems;
-import net.Indyuce.mmoitems.util.MMOUtils;
 import net.Indyuce.mmoitems.api.ConfigFile;
 import net.Indyuce.mmoitems.skill.RegisteredSkill;
-import net.Indyuce.mmoitems.skill.ShulkerMissile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -81,8 +80,6 @@ public class SkillManager {
         if (clearBefore)
             skills.clear();
 
-        MythicLib.plugin.getSkills().registerSkillHandler(new ShulkerMissile());
-
         File skillFolder = new File(MMOItems.plugin.getDataFolder() + "/skill");
         if (!skillFolder.exists()) {
 
@@ -108,9 +105,9 @@ public class SkillManager {
         for (SkillHandler<?> handler : MythicLib.plugin.getSkills().getHandlers()) {
             ConfigFile config = new ConfigFile("/skill", handler.getLowerCaseId());
             if (!config.exists()) {
-                config.getConfig().set("name", MMOUtils.caseOnWords(handler.getId().replace("_", " ").replace("-", " ").toLowerCase()));
+                config.getConfig().set("name", UtilityMethods.caseOnWords(handler.getId().replace("_", " ").replace("-", " ").toLowerCase()));
                 for (String mod : handler.getModifiers()) {
-                    config.getConfig().set("modifier." + mod + ".name", MMOUtils.caseOnWords(mod.replace("-", " ").toLowerCase()));
+                    config.getConfig().set("modifier." + mod + ".name", UtilityMethods.caseOnWords(mod.replace("-", " ").toLowerCase()));
                     config.getConfig().set("modifier." + mod + ".default-value", 0);
                 }
                 config.save();

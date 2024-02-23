@@ -1,20 +1,19 @@
 package net.Indyuce.mmoitems.gui.edition;
 
 import io.lumine.mythic.lib.api.util.AltChar;
+import io.lumine.mythic.lib.api.util.ItemFactory;
 import io.lumine.mythic.lib.version.VersionMaterial;
 import net.Indyuce.mmoitems.ItemStats;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.api.Type;
 import net.Indyuce.mmoitems.api.edition.StatEdition;
 import net.Indyuce.mmoitems.api.item.template.MMOItemTemplate;
-import net.Indyuce.mmoitems.api.item.util.NamedItemStack;
 import net.Indyuce.mmoitems.util.MMOUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UpgradingEdition extends EditionInventory {
-	private static final ItemStack notAvailable = new NamedItemStack(VersionMaterial.RED_STAINED_GLASS_PANE.toMaterial(), "&cNot Available");
+	private static final ItemStack notAvailable = ItemFactory.of(Material.RED_STAINED_GLASS_PANE).name("&cNot Available").build();
 
 	public UpgradingEdition(Player player, MMOItemTemplate template) {
 		super(player, template);
@@ -113,13 +112,12 @@ public class UpgradingEdition extends EditionInventory {
 			ItemStack referenceItem = new ItemStack(Material.PAPER);
 			ItemMeta referenceItemMeta = referenceItem.getItemMeta();
 			referenceItemMeta.setDisplayName(ChatColor.GREEN + "Upgrade Reference");
-			List<String> referenceItemLore = new ArrayList<>();
-			referenceItemLore.add(ChatColor.GRAY + "This option dictates what consumables can");
-			referenceItemLore.add(ChatColor.GRAY + "upgrade your item. " + ChatColor.AQUA + "The consumable upgrade");
-			referenceItemLore.add(ChatColor.AQUA + "reference must match your item's reference" + ChatColor.GRAY + ",");
-			referenceItemLore.add(ChatColor.GRAY + "otherwise it can't upgrade it. Leave this blank");
-			referenceItemLore.add(ChatColor.GRAY + "so any consumable can upgrade this item.");
-			referenceItemLore.add("");
+            List<String> referenceItemLore = new ArrayList<>();
+            referenceItemLore.add(ChatColor.GRAY + "This option dictates what consumables can");
+            referenceItemLore.add(ChatColor.GRAY + "upgrade your item. " + ChatColor.AQUA + "The upgrade reference");
+            referenceItemLore.add(ChatColor.AQUA + "of your consumable must match the reference");
+            referenceItemLore.add(ChatColor.AQUA + "of the target item" + ChatColor.GRAY + ", otherwise it can't upgrade it.");
+            referenceItemLore.add("");
 			referenceItemLore
 					.add(ChatColor.GRAY + "Current Value: " + (reference == null ? ChatColor.RED + "No reference" : ChatColor.GOLD + reference));
 			referenceItemLore.add("");

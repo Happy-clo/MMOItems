@@ -1,10 +1,10 @@
 BOOK_OF_STRENGTH:
   base:
     material: BOOK
-    name: §c力量法书
-    lore: 
-      - §7就算在§9物品栏§7里，
-      - §7也会为你施加力量。
+    name: §cBook of Strength
+    lore:
+      - §7Will give you stats even when
+      - §7in §9inventory§7!
     tier: RARE
     projectile-damage: 15.0
     physical-damage: 10.0

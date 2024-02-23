@@ -1,5 +1,6 @@
 package net.Indyuce.mmoitems.stat.type;
 
+import io.lumine.mythic.lib.MythicLib;
 import io.lumine.mythic.lib.api.item.ItemTag;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.api.Type;
@@ -8,6 +9,7 @@ import net.Indyuce.mmoitems.api.item.mmoitem.ReadMMOItem;
 import net.Indyuce.mmoitems.gui.edition.EditionInventory;
 import net.Indyuce.mmoitems.stat.data.random.RandomStatData;
 import net.Indyuce.mmoitems.stat.data.type.StatData;
+import net.Indyuce.mmoitems.util.VersionDependant;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -26,6 +28,9 @@ public abstract class ItemStat<R extends RandomStatData<S>, S extends StatData> 
     private final String[] lore;
     private final List<String> compatibleTypes;
     private final List<Material> compatibleMaterials;
+
+    @Nullable
+    private String[] aliases = {};
 
     /**
      * The stat can be enabled or not, depending on the server version to
@@ -58,6 +63,13 @@ public abstract class ItemStat<R extends RandomStatData<S>, S extends StatData> 
 
         this.configPath = id.toLowerCase().replace("_", "-");
         this.nbtPath = "MMOITEMS_" + id;
+
+        // Version dependency
+        if (getClass().isAnnotationPresent(VersionDependant.class)) {
+            final VersionDependant implVersion = getClass().getAnnotation(VersionDependant.class);
+            if (MythicLib.plugin.getVersion().isBelowOrEqual(implVersion.major(), implVersion.minor(), implVersion.patch() - 1))
+                disable();
+        }
     }
 
     /**
@@ -185,9 +197,28 @@ public abstract class ItemStat<R extends RandomStatData<S>, S extends StatData> 
     }
 
     /**
+     * Mainly for backwards compatibility. Aliases are basically
+     * other string identifiers that point to the same item stat.
+     * Useful when changing stat keys inside the item configs.
+     *
+     * Aliases have to follow the UPPER_CASE stat identifier format.
+     */
+    @Nullable
+    public String[] getAliases() {
+        return aliases;
+    }
+
+    /**
+     * @see #getAliases()
+     */
+    public void setAliases(String... aliases) {
+        this.aliases = aliases;
+    }
+
+    /**
      * @return The stat ID
      * @deprecated Use getId() instead. Type is no longer an util since they can
-     *         now be registered from external plugins
+     * now be registered from external plugins
      */
     @Deprecated
     @NotNull
@@ -205,8 +236,8 @@ public abstract class ItemStat<R extends RandomStatData<S>, S extends StatData> 
 
     /**
      * @return The NBT path used by the stat to save data in an item's NBTTags.
-     *         The format is 'MMOITEMS_' followed by the stat name in capital
-     *         letters only using _
+     * The format is 'MMOITEMS_' followed by the stat name in capital
+     * letters only using _
      */
     @NotNull
     public String getNBTPath() {
@@ -225,6 +256,7 @@ public abstract class ItemStat<R extends RandomStatData<S>, S extends StatData> 
         return lore;
     }
 
+    @NotNull
     public List<String> getCompatibleTypes() {
         return compatibleTypes;
     }
@@ -233,11 +265,17 @@ public abstract class ItemStat<R extends RandomStatData<S>, S extends StatData> 
      * @param type The item type to check
      * @return If a certain item type is compatible with this item stat
      */
-    public boolean isCompatible(Type type) {
-        String lower = type.getId().toLowerCase();
-        return type.isSubtype() ? isCompatible(type.getParent())
-                : !compatibleTypes.contains("!" + lower) && (compatibleTypes.contains("all") || compatibleTypes.contains(lower)
-                || compatibleTypes.contains(type.getItemSet().getName().toLowerCase()));
+    public boolean isCompatible(@NotNull Type type) {
+
+        // Special rule for weapons
+        if (type.isWeapon() && compatibleTypes.contains("weapon")) return true;
+
+        // Recursive call with root types
+        if (type.isSubtype()) return isCompatible(type.getParent());
+
+        // Parent item types
+        final String lower = type.getId().toLowerCase();
+        return !compatibleTypes.contains("!" + lower) && (compatibleTypes.contains("all") || compatibleTypes.contains(lower));
     }
 
     public boolean hasValidMaterial(ItemStack item) {

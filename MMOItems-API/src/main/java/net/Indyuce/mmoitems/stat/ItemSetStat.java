@@ -57,7 +57,7 @@ public class ItemSetStat extends StringStat implements GemStoneStat {
     @Override
     public ArrayList<ItemTag> getAppliedNBT(@NotNull StringData data) {
         ItemSet set = MMOItems.plugin.getSets().get(data.toString());
-        Validate.notNull(set, "Could not find item set with ID '%s'".formatted(data));
+        Validate.notNull(set, String.format("Could not find item set with ID '%s'", data));
 
         // Make Array
         ArrayList<ItemTag> ret = new ArrayList<>();
@@ -78,7 +78,7 @@ public class ItemSetStat extends StringStat implements GemStoneStat {
     @Override
     public void whenInput(@NotNull EditionInventory inv, @NotNull String message, Object... info) {
         ItemSet set = MMOItems.plugin.getSets().get(message);
-        Validate.notNull(set, "Couldn't find the set named '%s'.".formatted(message));
+        Validate.notNull(set, String.format("Couldn't find the set named '%s'.", message));
         super.whenInput(inv, message, info);
     }
 }

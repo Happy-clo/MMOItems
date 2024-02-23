@@ -1,5 +1,6 @@
 package net.Indyuce.mmoitems.gui.edition;
 
+import io.lumine.mythic.lib.UtilityMethods;
 import io.lumine.mythic.lib.api.item.ItemTag;
 import io.lumine.mythic.lib.api.item.NBTItem;
 import io.lumine.mythic.lib.api.util.AltChar;
@@ -70,7 +71,7 @@ public class ParticlesEdition extends EditionInventory {
             for (String modifier : particleType.getModifiers()) {
                 ItemStack modifierItem = VersionMaterial.GRAY_DYE.toItem();
                 ItemMeta modifierItemMeta = modifierItem.getItemMeta();
-                modifierItemMeta.setDisplayName(ChatColor.GREEN + MMOUtils.caseOnWords(modifier.toLowerCase().replace("-", " ")));
+                modifierItemMeta.setDisplayName(ChatColor.GREEN + UtilityMethods.caseOnWords(modifier.toLowerCase().replace("-", " ")));
                 List<String> modifierItemLore = new ArrayList<>();
                 modifierItemLore.add("" + ChatColor.GRAY + ChatColor.ITALIC + "This is a pattern modifier.");
                 modifierItemLore.add("" + ChatColor.GRAY + ChatColor.ITALIC + "Changing this value will slightly");
@@ -101,7 +102,7 @@ public class ParticlesEdition extends EditionInventory {
         particleItemLore.add(ChatColor.GRAY + "in the particle effect.");
         particleItemLore.add("");
         particleItemLore.add(ChatColor.GRAY + "Current Value: " + (particle == null ? ChatColor.RED + "No particle selected."
-                : ChatColor.GOLD + MMOUtils.caseOnWords(particle.name().toLowerCase().replace("_", " "))));
+                : ChatColor.GOLD + UtilityMethods.caseOnWords(particle.name().toLowerCase().replace("_", " "))));
         particleItemLore.add("");
         particleItemLore.add(ChatColor.YELLOW + AltChar.listDash + " Click to change this value.");
         particleItemLore.add(ChatColor.YELLOW + AltChar.listDash + " Right click to change this value.");

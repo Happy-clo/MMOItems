@@ -1,68 +1,85 @@
-# 请勿修改
+# DO NOT TOUCH
 config-version: 8
 
-# 当玩家加入服务器时，如果有新的更新可供下载，通过'mmoitems.update-notify'权限节点通知玩家。更改时需要执行/reload。
+# Notifies players with the 'mmoitems.update-notify' perm node when
+# they join the server if a new update is available for download.
+# Requires /reload when changed.
 update-notify: true
 
-# 启用/禁用插件迭代整个玩家库存而不仅仅是玩家的盔甲和手持物品。此选项对于"Ornament"物品类型是必需的，但可能会导致卡顿和/或占用大量内存。
+# Enable/disable the plugin iterating over the whole player inventory
+# instead of just the players armor and held items.
+# This option is required for the Ornament item type, however
+# it CAN cause lag and/or take a lot of memory.
 iterate-whole-inventory: false
 
-# 当设置为true时，皮肤只能应用于物品一次。
+# When this is set to true, skins can only be applied to an item ONCE. 
 locked-skins: true
 
-# 从6.9.3开发构建版本开始，MMOItems同时支持多个RPG核心插件。但是，MMOItems需要一个特定的插件来钩住等级、职业等。
+# Since 6.9.3 dev builds, MMOItems supports the use of multiple
+# RPG core plugins at the same time. However, MMOItems needs one
+# specific plugin to hook onto level, class, etc.
 #
-# 可用插件：
-# - MMOCORE（等级、职业、法力、耐力）
-# - HEROES（等级、职业、法力、耐力）
-# - SKILLAPI或PROSKILLAPI（等级、职业、法力）
-# - RPGPLAYERLEVELING（等级、法力、力量）
-# - RACESANDCLASSES（等级、职业、法力）
-# - BATTLELEVELS（等级）
-# - MCMMO（力量等级）
-# - MCRPG（力量等级）
-# - SKILLS或SKILLSPRO（职业、等级、法力）
-# - AURELIUM_SKILLS（力量等级、法力）
+# Available plugins:
+# - MMOCORE (level, class, mana, stamina)
+# - HEROES (level, class, mana, stamina)
+# - SKILLAPI or PROSKILLAPI (level, class, mana)
+# - RPGPLAYERLEVELING (level, mana, power)
+# - RACESANDCLASSES (level, class, mana)
+# - BATTLELEVELS (level)
+# - MCMMO (power level)
+# - MCRPG (power level)
+# - SKILLS or SKILLSPRO (class, level, mana)
+# - AURELIUM_SKILLS (power level, mana)
 preferred-rpg-provider: MMOCORE
 
-# 默认情况下，所有玩家库存将每10个刻度更新一次，对应每秒2次库存更新。
+# By default, all player inventories will be updated every
+# 10 ticks which corresponds to 2 inventory updates a second.
 inventory-update-delay: 10
 
-# 生成物品时，物品等级必须与玩家等级大致匹配，否则玩家无法使用物品/获得无用的物品。
+# When generating an item, the item level
+# must match approximately the player level
+# otherwise the player cannot use items/get useless items.
 #
-# 物品等级始终在[playerLevel - spread，playerLevel + spread]区间内
+# The item level is always somewhere in the
+# interval [playerLevel - spread, playerLevel + spread]
 item-level-spread: 2
 
-# 当前存在一个客户端Minecraft问题，即左键单击时
+# There is currently a client-side Minecraft issue
+# where left clicking a
 fix-left-click-interact: false
 
-# 当生成物品时，没有等级时使用的容量公式。
+# An item with no tier will use this tier name
+# as its default tier name.
+default-tier-name: 'Common'
+
+# When an item is generated with no tier,
+# this is the capacity formula it will use.
 default-item-capacity:
     base: 3
     scale: 0
     spread: 0
     max-spread: 0
 
-# 更改某些统计信息的默认值。这主要适用于非定向武器，如法杖、火枪等...
+# Changes the default value for some stats. This mainly
+# accounts for untargeted weapons like staffs, muskets...
 default:
     attack-speed: 0.67
     range: 16
-    blunt-rating: 33
     recoil: 0.1
 
-# 更改此选项时重新启动服务器
+# Restart server when changing this option
 dropped-items:
 
-    # 根据它们的等级发光物品
+    # Items glow based on their tier
     tier-glow: true
 
-    # 在掉落物品上显示物品名称
+    # Display item name over the dropped item
     hints: true
 
-# 一些物品统计信息，如'Commands'或NBTTags，可能会被滥用以变得强大。
-# 您可以为这些统计信息绑定特定权限以限制其编辑。
-# 对于此选项有效的插件需要支持Vault。
-# 相应的权限是"mmoitems.edit.op"。
+# Some item stats like 'Commands' or NBTTags can be abused to become op.
+# You can bind a specific permissions to these stats to limit their edition.
+# You need a perm plugin that supports Vault for that option to work.
+# The corresponding permission is "mmoitems.edit.op".
 op-item-stats:
     enabled: false
     stats:
@@ -71,16 +88,17 @@ op-item-stats:
 
 item-upgrading:
 
-    # 升级物品时的显示名称后缀。
+    # Display name suffix for upgraded items.
     name-suffix: ' &8(&e+#lvl#&8)'
 
-    # 是否在物品名称或物品描述中显示
-    # 如果可以让玩家重命名物品，请禁用。
-    # 如果设置为'false'，请记住在物品描述中包括
-    # {upgrade_level}。
+    # Whether to display in Item Name or Lore
+    # Disable if item renaming is available to players.
+    # If set to 'false', remember to include
+    # {upgrade_level} in your item lore.
     display-in-name: true
 
-    # 是否显示物品描述中更改了哪些统计信息。
+    # Whether or not to display which
+    # stats are changed in the lore.
     display-stat-changes: false
     stat-change-suffix: ' &8(<p>#stat#&8)'
     stat-change-positive: '&a'
@@ -88,29 +106,34 @@ item-upgrading:
 
 stats-displaying:
 
-    # 这将是数值统计信息的前缀，当它们不可取时更改其颜色。
+    # This will be a prefix to numeric stats,
+    # changing their color when they are undesirable.
     color-positive: ''
     color-negative: ''
 
-    # 当在制作工作站中显示具有RNG的物品时，这是低
-    # 和高范围之间的分隔符：攻击伤害+5⎓7.5
+    # When items with RNG are displayed in crafting
+    # stations, this is the separator between the low
+    # and high bound:  Attack Damage  +5⎓7.5
     range-dash: '⎓'
 
 soulbound:
 
-    # 当玩家尝试使用未绑定到自己的物品时，编辑损伤绑定。
+    # Edit soulbound damage when players try to use
+    # items which are not bound to themselves.
     damage:
         base: 1
         per-lvl: 1
 
-    # 是否在玩家死亡时保留绑定的物品。
+    # Whether or not soulbound items should be
+    # kept when a player dies.
     keep-on-death: true
 
-    # 是否可以通过玩家删除灵魂绑定物品
+    # Whether or not soulbound item can be
+    # dropped by the player
     can-drop: true
 
-# 启用、禁用并自定义武器效果。
-# 武器效果取决于物品类型和设置类型。
+# Enable, disable, and customize the weapon effects here.
+# Weapon effects depend on the item type & type set.
 item-ability:
     staff:
         enabled: true
@@ -138,38 +161,42 @@ item-ability:
 
 gem-sockets:
 
-    # 如果要创建一个未着色的宝石插槽，即任何类型的宝石插槽，定义物品中需要输入的文本。
+    # Define the text you need to enter in the
+    # item gem sockets if you want to create an
+    # uncolored gem socket i.e a socket for any type of gem.
     uncolored: 'Uncolored'
 
 custom-blocks:
 
-    # 是否应按照生成模板在世界中生成自定义方块。
+    # Whether or not custom blocks should
+    # generate in the world according to
+    # their generation template.
     enable-world-gen: false
 
-    # 当使用丝网触发时，是否删除蘑菇方块掉落
-    # 自定义块。
-    # 强烈推荐用于使用
-    # 自定义块的服务器，因为蘑菇方块可以破坏一切。
+    # Whether or not to remove mushroom block drops
+    # from the droplist when mining a mushroom block
+    # with silk-touch.
+    # HIGHLY Recommended for servers that use
+    # custom blocks, as the mushroom blocks can BREAK everything.
     replace-mushroom-drops: true
 
-# 如果你的聊天管理插件与MMOItems的聊天输入功能发生冲突，请使用此选项。
-# 这将弹出一个可以在其中输入文本的铁砧GUI，而不是使用聊天。
-anvil-text-input: false
-
-# 当设置为true时，如果物品被升级后，物品的规格（等级、职业要求）对玩家来说太高，则玩家不能升级物品。
+# When set to true, players CANNOT upgrade an item if the
+# specs (level, profession requirements) the item WOULD
+# have if it were upgraded are too high for the player.
 item-upgrade-requirements-check: true
 
-# 当玩家同时持有双手物品和另一物品时，他们无法使用武器/技能。
-# 当切换关闭时，玩家仍然受到缓慢4的影响。
+# Players can't use their weapon/abilities when holding
+# two-handed item and one other item simultaneously.
+# When toggled off, players still receive slow 4.
 two-handed-item-restriction: true
 
-# 你可以选择用什么字符来创建
-# 物品技能冷却进度条。
+# You can select what char will be used to create
+# the item ability cooldown progress bar.
 cooldown-progress-bar-char: █
 
-# 在动作栏上显示消息而不是在聊天中显示。
-# 可以用来减少聊天垃圾邮件。
-# 可能会干扰其他动作栏插件。
+# Displays a message on the action bar instead of on the chat.
+# Can be used to reduce chat spam.
+# Might interfere with other action bar plugins.
 action-bar-display:
     ability-cooldown: true
     item-cooldown: true
@@ -182,14 +209,14 @@ action-bar-display:
 
 recipes:
 
-    # 启用MMOItems配方的原始配方书
+    # Enables the vanilla recipe book for MMOItems recipes
     use-recipe-book: true
 
-# "repair"防止玩家修复MMOItems。
-# "smelt"防止玩家熔炼MMOItems。
-# "enchant"禁用MMOItems的附魔。
-# "craft"防止玩家将MMOItems用作材料。
-# "arrow-shooting"防止玩家射击任何MMOItem箭。
+# "repair" prevents players from repairing MMOItems.
+# "smelt" prevents players from smelting MMOItems.
+# 'enchant" disables enchanting for MMOItems.
+# "craft" prevents players from using MMOItems as ingredients.
+# "arrow-shooting" prevents players from shooting any MMOItem that is an arrow.
 disable-interactions:
     interact: false
     repair: false
@@ -199,155 +226,165 @@ disable-interactions:
     craft: false
     arrow-shooting: false
 
-# 不能被能力/物品效果打破的方块类型
+# Block types that can't be broken by an ability/item effect
 block-blacklist:
     - OBSIDIAN
 
-# 允许/禁用使用物品/技能所需的权限。
-# 功能权限节点：mmoitems.ability.ability-id
-# 例如：- mmoitems.ability.fire-meteor
-#      - mmoitems.ability.slow
-#      - mmoitems.ability.cursed-fangs
-#      等等。
+# Allows/disables the permissions needed in order to use items/abilities.
+# General permission node for abilities: mmoitems.ability.ability-id
+# Ex: - mmoitems.ability.fire-meteor
+#     - mmoitems.ability.slow
+#     - mmoitems.ability.cursed-fangs
+#     etc.
 permissions:
     abilities: false
     items: true
 
 #
-# 当物品统计信息具有一定范围的可能性时。
+# When item stats has a numeric range of possibilities.
 # attack-damage:
 #    base: 10
 #    spread: 1
 #
-# 使用spread，一个等级和一个随机数，我们
-# 得到一个随机数（与spread非常相关）：1.7
+# Using the spread, a level, and a random number, we
+# obtain a random number (very related to the spread): 1.7
 #
-# 如果additive-spread-formula为true，则将其添加到基数中：
-#    结果：10 + 1.7 = 11.7的攻击伤害
+# If additive-spread-formula is true, this is added to the base:
+#    RESULT: 10 + 1.7  =  11.7 attack damage
 #
-# 如果additive-spread-formula为false，则将其乘以基数：
-#    结果：10 * 1.7 = 17的攻击伤害
+# If additive-spread-formula is false, this is multiplied to the base:
+#    RESULT: 10 * 1.7  =  17 attack damage
 #
 additive-spread-formula: false
 
-# 禁用不能在基本的工作台中制作的非MMOItems。
-# 如果列表为空，请添加[]。
+# Disables non MMOItems from being crafted in the vanilla workbench.
+# Add [] if the list is empty.
 disable-vanilla-recipes: []
 # - DIAMOND_PICKAXE
 # - IRON_BLOCK
 
-# 物品修订系统的选项
+# Options for the Item Revision System
 item-revision:
 
-    # 取下宝石时，按照它们放入物品时的统计信息捡起它们。
-    # 禁用此选项将强制它们被重新生成。
+    # Unsocketing gems picks them up with the stats they had
+    # when first put into the item, disable this option to
+    # force them to be regenerated.
     regenerate-gems-when-unsocketed: false
 
-    # 保留层次的传统选项，将优先级
-    # 如果未指定，则旁边的keep-标志。
+    # Legacy option to carry tiers over, will take precedence
+    # If not specified next to the other keep- flags.
     keep-tiers: true
 
-    # 如果升级物品的新版本不保留其宝石，则将这些宝石返还给玩家，以免它们永远丢失。
+    # If an item is updated, and the new version does not
+    # keep its gems, this will give the gems back to the
+    # player so that they don't get lost forever.
     drop-extra-gems: true
 
-    # 当保留Lore数据时，只有以此开头的Lore实际上才会被保留。
+    # When keeping lore data, only lore that starts with this
+    # will actually be kept.
     kept-lore-prefix: '&7'
 
-    # 当物品被升级到最新版本时，是否应该保留特定统计信息
+    # Whether or not specific stats should be kept
+    # when an item is updated to latest revision.
     keep-data:
 
-        # 物品的名称，通常是通过铁砧重命名的
+        # Name of the item, usually renamed via anvil
         display-name: true
 
-        # 玩家对物品施加的附魔
+        # Enchantments put on the item by the player
         enchantments: true
 
-        # 施加到物品的灵魂绑定
+        # Soulbound applied to the item
         soulbound: true
 
-        # 物品上的宝石
+        # Gems on the item
         gems: true
 
-        # 物品的升级级别
+        # Upgrade level of the item
         upgrades: true
 
-        # 物品的特定Lore行...
-        # 警告，这会阻止Lore中的统计信息在视觉上更新！
+        # Specific lore lines of the item...
+        # Warning, this prevents stats in the lore from updating visually!
         lore: false
 
-        # 可能是由外部插件放入的数据。
+        # Data that may have been put there by external plugins.
         exsh: true
 
-        # 由RNG处理的统计信息将被重新掷骰子
+        # Stats handled by RNG will be rerolled
         reroll: false
 
-        # 物品的修改器 ~ 锐利、轻巧、沉重、奥术
+        # Modifiers of items ~ Sharp, Light, Heavy, Arcane
         modifications: true
 
-        # MMOItems应用的皮肤
+        # Skins applied by MMOItems
         skins: true
 
-        # 物品的层次
+        # Tier of the item
         tier: true
 
-        # 第三方插件兼容性
+        # Third party plugin compatibility
         advanced-enchantments: true
 
-    # 当物品内的宝石被更新到最新版本时，是否应该保留特定统计信息
+    # Whether specific stats should be kept when gemstones
+    # within an item are updated to the latest revision.
     keep-gem-data:
 
-        # 物品的名称，通常通过铁砧更名
+        # Name of the item, usually renamed via anvil
         display-name: true
 
-        # 玩家添加的物品附魔
+        # Enchantments put on the item by the player
         enchantments: true
 
-        # 物品的特定属性描述...
-        # 警告，这将阻止属性在描述中更新显示！
+        # Specific lore lines of the item...
+        # Warning, this prevents stats in the lore from updating visually!
         lore: false
 
-        # 通过RNG处理的属性将被重新生成
+        # Stats handled by RNG will be rerolled
         reroll: false
 
-phat-loots:
-    display-name: false
-    enchantments: false
-    soulbound: false
-    gems: true
-    upgrades: false
-    lore: false
-    exsh: false
-    tier: true
-    skins: false
-    reroll: true
-    modifications: false
-    advanced-enchantments: false
+    phat-loots:
+        display-name: false
+        enchantments: false
+        soulbound: false
+        gems: true
+        upgrades: false
+        lore: false
+        exsh: false
+        tier: true
+        skins: false
+        reroll: true
+        modifications: false
+        advanced-enchantments: false
 
-# 这些物品在PhatLoots中完全不会更新，以便与检查具体NBT的任务插件兼容
-disable-phat-loot:
-    - MANGO
-    - STEEL_HELMET
+    # These will not update at all in PhatLoots, for
+    # compatibility with quest plugins that check for
+    # exact NBT
+    disable-phat-loot:
+        - MANGO
+        - STEEL_HELMET
 
-# 在这里，你可以禁用物品在找到更高版本ID时更新时的个别事件
-disable-on:
-    pickup: false
-    craft: true # 'true' 推荐
-    click: false
-    join: false
+    # Here you can disable individual events for when
+    # Items should update when a higher revision ID is found
+    disable-on:
+        pickup: false
+        craft: true # 'true' recommended
+        click: false
+        join: false
 
-# 偏移量是X和Y坐标上的移动距离
-# 高度是Y轴速度坐标。Lootsplosions
-# 仅在MythicMobs怪物触发时发生。
-# 更改时需要服务器重新加载。
+# Offset is the distance traveled on X and Y coordinates
+# Height is the Y velocity coordinate. Lootsplosions
+# only trigger with MythicMobs monsters.
+# Requires a SERVER reload when changed.
 lootsplosion:
     enabled: true
     color: true
     offset: .2
     height: .6
 
-# 当升级遇到宝石时，必须决定是否
-# 宝石的统计信息也会增加。
+# When Upgrading meets Gems, one must decide if
+# gems' stats will increase as well.
 gem-upgrade-default: 'NEVER'
 
-# 此选项允许您禁用使用已从配置中删除的MMOItems的能力。
+# This option allows you to disable the ability to
+# use MMOItems that have been removed from your config.
 disable-removed-items: true

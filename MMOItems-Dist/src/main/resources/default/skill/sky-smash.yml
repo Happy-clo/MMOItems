@@ -1,20 +1,20 @@
-name: 破碎天空
+name: Sky Smash
 modifier:
   damage:
-    name: 伤害
+    name: Damage
     default-value: 3.0
   mana:
-    name: 魔法
+    name: Mana
     default-value: 0.0
   stamina:
-    name: 体力
+    name: Stamina
     default-value: 0.0
   cooldown:
-    name: 冷却
+    name: Cooldown
     default-value: 10.0
   timer:
-    name: 计时
+    name: Timer
     default-value: 0.0
   knock-up:
-    name: 敲门
+    name: Knock Up
     default-value: 1.0

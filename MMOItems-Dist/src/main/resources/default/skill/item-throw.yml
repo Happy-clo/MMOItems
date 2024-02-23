@@ -1,20 +1,20 @@
-name: 投掷物品
+name: Item Throw
 modifier:
   damage:
-    name: 伤害
+    name: Damage
     default-value: 6.0
   mana:
-    name: 魔法
+    name: Mana
     default-value: 0.0
   stamina:
-    name: 体力
+    name: Stamina
     default-value: 0.0
   cooldown:
-    name: 冷却
+    name: Cooldown
     default-value: 10.0
   timer:
-    name: 计时
+    name: Timer
     default-value: 0.0
   force:
-    name: 提升
+    name: Force
     default-value: 1.0

@@ -1,42 +1,68 @@
-# 'name'用于在物品lore中显示品质。
-
-# 'deconstruct-item'是解构物品时掉落的物品的掉落表。
-
-# 品质ID（TRASH,COMMON...）区分大小写。
+# 'name' is used to display the tier in the item lore.
+#
+# 'deconstruct-item' is the drop table for the item
+# that drops when deconstructing an item.
+#
+# Tier IDs (TRASH,COMMON...) are case sensitive.
 
 TRASH:
-    name: '&8&l废品'
+    name: '&8&lTRASH'
     unidentification:
         range: 6
-        name: '废品'
+        name: 'Trash'
         prefix: '&8'
-    # 此品质没有指定生成选项。
-    # 在这种情况下，它将使用config.yml中设置的默认值。
+    # This tier has no generation options specified.
+    # In that case, it'll use the default values set in config.yml
 COMMON:
-    name: '&7&l普通'
+    name: '&7&lCOMMON'
     parent: TRASH
     unidentification:
         range: 6
-        name: '普通'
+        name: 'Common'
         prefix: '&7'
-    # 此品质没有指定生成选项。
-    # 在这种情况下，它将使用config.yml中设置的默认值。
+    # This tier has no generation options specified.
+    # In that case, it'll use the default values set in config.yml
 UNCOMMON:
-    name: '&8&l罕见'
+
+    # Tier name displayed in the item lore. 
+    name: '&8&lUNCOMMON'
+    
+    # Unidentified items display the item tier.
     unidentification:
-        name: '罕见'
+        
+        # Only applies for items with a required
+        # levels. Corresponds to the range within
+        # which the required level is located.
         range: 6
+        
+        # Tier name displayed in lore.
+        name: 'Uncommon'
+        
+        # unidentification item name prefix.
         prefix: '&8'
+    
     item-glow:
+        
+        # When enabled, dropped items display
+        # an item hint (looks like a hologram).
         hint: true
+        
+        # Item glow color. 
+        # https://htmlcolorcodes.com/bukkit-color-codes/
+        # BLACK DARK_BLUE DARK_GREEN DARK_AQUA DARK_RED DARK_PURPLE GOLD GRAY DARK_GRAY BLUE GREEN AQUA RED LIGHT_PURPLE YELLOW WHITE
         color: 'GRAY'
+    
     generation:
         chance: 0.15
         capacity:
             base: 6
+            
+            # Scales on the item level
             scale: .1
+            
             spread: .1
             max-spread: .3
+    
     deconstruct-item:
         success:
             coef: 1
@@ -49,11 +75,11 @@ UNCOMMON:
                 MATERIAL:
                     WEAPON_POWDER: 100,1-1,0
 RARE:
-    name: '&6&l稀有'
+    name: '&6&lRARE'
     unidentification:
-        name: '稀有'
-        prefix: '&6'
+        name: 'Rare'
         range: 6
+        prefix: '&6'
     generation:
         chance: 0.06
         capacity:
@@ -73,9 +99,9 @@ RARE:
                 MATERIAL:
                     WEAPON_POWDER: 100,1-1,0
 VERY_RARE:
-    name: '&e&l非常稀有'
+    name: '&e&lVERY RARE'
     unidentification:
-        name: '非常稀有'
+        name: 'Very Rare'
         prefix: '&e'
         range: 6
     deconstruct-item:
@@ -97,9 +123,9 @@ VERY_RARE:
             spread: .1
             max-spread: .3
 LEGENDARY:
-    name: '&b&l传奇'
+    name: '&b&lLEGENDARY'
     unidentification:
-        name: '传奇'
+        name: 'Legendary'
         prefix: '&b'
         range: 6
     deconstruct-item:
@@ -121,9 +147,9 @@ LEGENDARY:
             spread: .1
             max-spread: .3
 MYTHICAL:
-    name: '&5&l神秘'
+    name: '&5&lMYTHICAL'
     unidentification:
-        name: '神秘'
+        name: 'Mythical'
         prefix: '&5'
         range: 6
     generation:
@@ -145,9 +171,9 @@ MYTHICAL:
                 MATERIAL:
                     WEAPON_POWDER: 100,1-1,0
 EPIC:
-    name: '&4&l史诗'
+    name: '&4&lEPIC'
     unidentification:
-        name: '史诗'
+        name: 'Epic'
         prefix: '&4'
         range: 6
     deconstruct-item:
@@ -161,12 +187,12 @@ EPIC:
             items:
                 MATERIAL:
                     WEAPON_POWDER: 100,1-1,0
-    # 此品质没有指定生成选项。
-    # 在这种情况下，它将使用config.yml中设置的默认值
+    # This tier has no generation options specified.
+    # In that case, it'll use the default values set in config.yml
 MAGICAL:
-    name: '&2&l神奇'
+    name: '&2&lMAGICAL'
     unidentification:
-        name: '神奇'
+        name: 'Magical'
         prefix: '&2'
         range: 6
     deconstruct-item:
@@ -180,12 +206,12 @@ MAGICAL:
             items:
                 MATERIAL:
                     WEAPON_POWDER: 100,1-1,0
-    # 此品质没有指定生成选项。
-    # 在这种情况下，它将使用config.yml中设置的默认值
+    # This tier has no generation options specified.
+    # In that case, it'll use the default values set in config.yml
 UNIQUE:
-    name: '&c&l独特'
+    name: '&c&lUNIQUE'
     unidentification:
-        name: '独特'
+        name: 'Unique'
         prefix: '&c'
         range: 6
     deconstruct-item:
@@ -199,5 +225,5 @@ UNIQUE:
             items:
                 MATERIAL:
                     WEAPON_POWDER: 100,1-1,0
-    # 此品质没有指定生成选项。
-    # 在这种情况下，它将使用config.yml中设置的默认值
+    # This tier has no generation options specified.
+    # In that case, it'll use the default values set in config.yml

@@ -5,17 +5,12 @@
     <parent>
         <artifactId>MMOItems</artifactId>
         <groupId>net.Indyuce</groupId>
-        <version>6.9.5-SNAPSHOT</version>
+        <version>6.10-SNAPSHOT</version>
     </parent>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>MMOItems-Dist</artifactId>
-
-    <properties>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
-    </properties>
 
     <!-- Dependencies -->
     <dependencies>
@@ -33,7 +28,7 @@
         <dependency>
             <groupId>net.Indyuce</groupId>
             <artifactId>MMOItems-API</artifactId>
-            <version>6.9.5-SNAPSHOT</version>
+            <version>6.10-SNAPSHOT</version>
             <optional>true</optional>
         </dependency>
 

@@ -87,10 +87,10 @@ public class ItemBrowser extends PluginInventory {
                 ItemStack item = currentType.getItem();
                 item.setAmount(Math.max(1, Math.min(64, items)));
                 ItemMeta meta = item.getItemMeta();
-                AdventureUtils.setDisplayName(meta, "&a%s&8 (lick to browse)".formatted(currentType.getName()));
+                AdventureUtils.setDisplayName(meta, String.format("&a%s&8 (lick to browse)", currentType.getName()));
                 meta.addItemFlags(ItemFlag.values());
                 List<String> lore = new ArrayList<>();
-                lore.add("&7&oThere %s %s &7&oitem%s in that currentType.".formatted(items == 1 ? "is" : "are", items < 1 ? "&c&ono" : "&6&o%d".formatted(items), items == 1 ? "" : "s"));
+                lore.add(String.format("&7&oThere %s %s &7&oitem%s in that currentType.", items == 1 ? "is" : "are", items < 1 ? "&c&ono" : "&6&o" + items, items == 1 ? "" : "s"));
                 AdventureUtils.setLore(meta, lore);
                 item.setItemMeta(meta);
 

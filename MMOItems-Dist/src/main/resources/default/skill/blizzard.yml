@@ -1,26 +1,26 @@
-name: 暴雪
+name: Blizzard
 modifier:
   duration:
-    name: 持续时间
+    name: Duration
     default-value: 2.5
   damage:
-    name: 伤害
+    name: Damage
     default-value: 2.0
   mana:
-    name: 魔法
+    name: Mana
     default-value: 0.0
   stamina:
-    name: 体力
+    name: Stamina
     default-value: 0.0
   cooldown:
-    name: 冷却
+    name: Cooldown
     default-value: 10.0
   timer:
-    name: 计时
+    name: Timer
     default-value: 0.0
   inaccuracy:
-    name: 失准
+    name: Inaccuracy
     default-value: 10.0
   force:
-    name: 力量
+    name: Force
     default-value: 1.0

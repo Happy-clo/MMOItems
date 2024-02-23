@@ -1,17 +1,17 @@
-name: 吸引
+name: Vampirism
 modifier:
   mana:
-    name: 魔法
+    name: Mana
     default-value: 0.0
   stamina:
-    name: 体力
+    name: Stamina
     default-value: 0.0
   cooldown:
-    name: 冷却
+    name: Cooldown
     default-value: 8.0
   drain:
-    name: 消耗
+    name: Drain
     default-value: 10.0
   timer:
-    name: 计时
+    name: Timer
     default-value: 0.0

@@ -1,7 +1,7 @@
 STIFF_GREATSTAFF:
   base:
     material: STICK
-    name: §f撬棍
+    name: '&fStiff Greatstaff'
     attack-damage:
       base: 11.0
       spread: 0.03
@@ -14,7 +14,7 @@ STIFF_GREATSTAFF:
         mode: ATTACK
         cooldown: 15.0
     lore:
-    - §7它是如此的沉重以至于被它击中的敌人会§c昏迷§7。
+    - '&7So heavy it &cstuns&7 enemies on hit.'
     disable-crafting: true
     disable-smelting: true
     block-rating: 5.0

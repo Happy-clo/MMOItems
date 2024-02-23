@@ -24,14 +24,14 @@ public class LoreFormat extends StringStat implements GemStoneStat {
 	@Override
 	public void whenApplied(@NotNull ItemStackBuilder item, @NotNull StringData data) {
 		String path = data.toString();
-		Validate.isTrue(MMOItems.plugin.getFormats().hasFormat(path), "Could not find lore format with ID '" + path + "'");
+		Validate.isTrue(MMOItems.plugin.getLore().hasFormat(path), "Could not find lore format with ID '" + path + "'");
 
 		item.addItemTag(new ItemTag(getNBTPath(), path));
 	}
 
 	@Override
 	public void whenInput(@NotNull EditionInventory inv, @NotNull String message, Object... info) {
-		Validate.isTrue(MMOItems.plugin.getFormats().hasFormat(message), "Couldn't find lore format with ID '" + message + "'.");
+		Validate.isTrue(MMOItems.plugin.getLore().hasFormat(message), "Couldn't find lore format with ID '" + message + "'.");
 
 		inv.getEditedSection().set(getPath(), message);
 		inv.registerTemplateEdition();

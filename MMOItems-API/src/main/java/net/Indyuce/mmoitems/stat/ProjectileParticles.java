@@ -3,6 +3,7 @@ package net.Indyuce.mmoitems.stat;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import io.lumine.mythic.lib.UtilityMethods;
 import io.lumine.mythic.lib.api.item.ItemTag;
 import io.lumine.mythic.lib.api.item.SupportedNBTTagValues;
 import io.lumine.mythic.lib.api.util.AltChar;
@@ -109,7 +110,7 @@ public class ProjectileParticles extends ItemStat<ProjectileParticlesData, Proje
                 inv.getEditedSection().set("projectile-particles.color.blue", 0);
                 inv.registerTemplateEdition();
                 inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + "Particle successfully set to "
-                        + MMOUtils.caseOnWords(particle.name().toLowerCase().replace("_", " ")) + " with color " + red);
+                        + UtilityMethods.caseOnWords(particle.name().toLowerCase().replace("_", " ")) + " with color " + red);
             } else {
                 Validate.isTrue(msg.length == 4, "You must provide a color for this particle.\n"
                         + MMOItems.plugin.getPrefix() + ChatColor.AQUA + "Format: {Particle} {R G B}");
@@ -122,7 +123,7 @@ public class ProjectileParticles extends ItemStat<ProjectileParticlesData, Proje
                 inv.getEditedSection().set("projectile-particles.color.blue", blue);
                 inv.registerTemplateEdition();
                 inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + "Particle successfully set to "
-                        + MMOUtils.caseOnWords(particle.name().toLowerCase().replace("_", " ")) + " with RGB color " + red + " " + green + " " + blue);
+                        + UtilityMethods.caseOnWords(particle.name().toLowerCase().replace("_", " ")) + " with RGB color " + red + " " + green + " " + blue);
             }
         } else {
             Validate.isTrue(msg.length == 1, "That particle cannot be assigned a color");
@@ -132,7 +133,7 @@ public class ProjectileParticles extends ItemStat<ProjectileParticlesData, Proje
             inv.getEditedSection().set("projectile-particles.color.blue", 0);
             inv.registerTemplateEdition();
             inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + "Particle successfully set to "
-                    + MMOUtils.caseOnWords(particle.name().toLowerCase().replace("_", " ")));
+                    + UtilityMethods.caseOnWords(particle.name().toLowerCase().replace("_", " ")));
         }
     }
 

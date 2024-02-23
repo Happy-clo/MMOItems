@@ -49,7 +49,7 @@ public class UpgradeStat extends ItemStat<UpgradeData, UpgradeData> implements C
 		super("UPGRADE", Material.FLINT, "Item Upgrading",
 				new String[] { "Upgrading your item improves its", "current stats. It requires either a", "consumable or a specific crafting ",
 						"station. Upgrading may sometimes &cfail&7..." },
-				new String[] { "piercing", "slashing", "blunt", "catalyst", "range", "tool", "armor", "consumable", "accessory" });
+				new String[] { "weapon", "catalyst", "tool", "armor", "consumable", "accessory" });
 	}
 
 	@Override
@@ -209,7 +209,7 @@ public class UpgradeStat extends ItemStat<UpgradeData, UpgradeData> implements C
 			}
 
 			UpgradeData consumableSharpening = (UpgradeData) mmoitem.getData(ItemStats.UPGRADE);
-			if (!consumableSharpening.matchesReference(targetSharpening)) {
+			if (!MMOUtils.checkReference(consumableSharpening.getReference(), targetSharpening.getReference())) {
 				Message.WRONG_UPGRADE_REFERENCE.format(ChatColor.RED).send(player);
 				player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 2);
 				return false;

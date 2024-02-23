@@ -1,5 +1,6 @@
 package net.Indyuce.mmoitems.stat;
 
+import io.lumine.mythic.lib.UtilityMethods;
 import io.lumine.mythic.lib.api.item.ItemTag;
 import io.lumine.mythic.lib.api.item.SupportedNBTTagValues;
 import io.lumine.mythic.lib.api.util.AltChar;
@@ -35,7 +36,7 @@ import java.util.*;
 public class Elements extends ItemStat<RandomElementListData, ElementListData> implements Previewable<RandomElementListData, ElementListData> {
     public Elements() {
         super("ELEMENT", Material.SLIME_BALL, "Elements", new String[]{"The elements of your item."},
-                new String[]{"slashing", "piercing", "blunt", "catalyst", "range", "tool", "armor", "gem_stone"});
+                new String[]{"weapon", "catalyst", "tool", "armor", "gem_stone"});
     }
 
     @Override
@@ -75,7 +76,7 @@ public class Elements extends ItemStat<RandomElementListData, ElementListData> i
         }
 
         inv.registerTemplateEdition();
-        inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + ChatColor.RED + MMOUtils.caseOnWords(elementPath.replace(".", " ")) + ChatColor.GRAY
+        inv.getPlayer().sendMessage(MMOItems.plugin.getPrefix() + ChatColor.RED + UtilityMethods.caseOnWords(elementPath.replace(".", " ")) + ChatColor.GRAY
                 + " successfully changed to " + ChatColor.GOLD + formula + ChatColor.GRAY + ".");
     }
 

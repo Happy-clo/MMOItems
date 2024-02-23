@@ -1,5 +1,6 @@
 package net.Indyuce.mmoitems.gui.edition;
 
+import io.lumine.mythic.lib.UtilityMethods;
 import io.lumine.mythic.lib.api.util.AltChar;
 import net.Indyuce.mmoitems.ItemStats;
 import net.Indyuce.mmoitems.MMOItems;
@@ -11,7 +12,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -97,7 +97,7 @@ public class SoundsEdition extends EditionInventory {
 				}
 
 				registerTemplateEdition();
-				player.sendMessage(MMOItems.plugin.getPrefix() + ChatColor.RED + MMOUtils.caseOnWords(soundPath.replace("-", " ")) + " Sound"
+				player.sendMessage(MMOItems.plugin.getPrefix() + ChatColor.RED + UtilityMethods.caseOnWords(soundPath.replace("-", " ")) + " Sound"
 						+ ChatColor.GRAY + " successfully removed.");
 			}
 		}

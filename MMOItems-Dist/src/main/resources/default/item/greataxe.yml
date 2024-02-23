@@ -1,7 +1,7 @@
-﻿BARBARIAN_AXE:
+BARBARIAN_AXE:
   base:
     material: NETHERITE_AXE
-    name: §c§l野蛮人的巨斧
+    name: §c§lBarbarian's Greataxe
     attack-damage:
       base: 42.0
       scale: 0.1
@@ -45,6 +45,6 @@
       - Red
     physical-damage: 30.0
     lore:
-      - §7是时候§c愤怒了§7!
+      - §7It's time to §cRAGE§7!
     disable-interaction: true
     max-durability: 19800.0

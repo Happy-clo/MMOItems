@@ -1,9 +1,9 @@
 SHARP_SPEAR:
   base:
     material: TRIDENT
-    name: §7锋利长矛
+    name: §7Sharp Spear
     lore:
-      - §7为近战而生。
+      - §7A spear made for close combat.
     critical-strike-chance:
       base: 6.0
       scale: 0.05
@@ -53,7 +53,7 @@ WARRIOR_SPEAR:
       spread: 0.1
       max-spread: 0.2
     lore:
-      - §7投掷时造成§c高伤害§7。
+      - §7Deals §cvery high damage§7 when thrown!
     enchants:
       loyalty: 3.0
     unbreakable: true
@@ -61,4 +61,4 @@ WARRIOR_SPEAR:
       - Red
       - Red
     movement-speed: -0.02
-    name: §6§l斗士长矛
+    name: §6§lWarrior's Spear

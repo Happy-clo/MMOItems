@@ -1,12 +1,7 @@
-name: Build Chinese Version
+name: Build
 
 on:
   push:
-  pull_request:
-    branches:
-      - master
-  schedule:
-    - cron: "0 0 * * *"
 
 jobs:
   build:
@@ -15,33 +10,33 @@ jobs:
         jdkversion: [17]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: ${{ matrix.jdkversion }}
-        cache: 'maven'
-        
-    - name: Configure Git User Details
-      run: git config --global user.email "actions@github.com" && git config --global user.name "Github Actions"
-    - name: Remove
-      run: rm target/* -f
-    - name: Build with Maven
-      run: |
-          git clone https://github.com/HappyMC-Develop/MMOItems-Zh.git core
-          cd core
-          mvn -V -B clean package --file pom.xml
-    - name: upload
-      uses: actions/upload-artifact@v3
-      with:
-       name: MMOItems
-       path: core/target
-    - name: automatic releases
-      uses: marvinpinto/action-automatic-releases@v1.2.1
-      with:
-         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-         automatic_release_tag: "latest-zh"
-         prerelease: false
-         title: "MMOItems 自动构建 汉化版 最新版本"
-         files: |
-           core/target/*.jar
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: ${{ matrix.jdkversion }}
+          cache: "maven"
+
+      - name: Configure Git User Details
+        run: git config --global user.email "actions@github.com" && git config --global user.name "Github Actions"
+      - name: Remove
+        run: rm target/* -f
+      - name: Build with Maven
+        run: mvn -V -B clean package --file pom.xml
+      - name: upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: MMOItems
+          path: core/target
+      - name: Set Short SHA
+        id: short-sha
+        run: echo "SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)" >> $GITHUB_ENV
+      - name: automatic releases
+        uses: marvinpinto/action-automatic-releases@v1.2.1
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "dev-${{ env.SHORT_SHA }}"
+          prerelease: false
+          title: "MMOItems-${{ env.SHORT_SHA }} Dev Auto Build"
+          files: |
+            target/*.jar

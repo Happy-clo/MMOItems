@@ -8,41 +8,40 @@ softdepend: [WorldGuard,Residence,BossShopPro,SkillAPI,SkillsPro,MMOCore,MMOProf
 api-version: 1.13
 commands:
     mmoitems:
-        description: MMOItems主命令。
+        description: MMOItems main command.
         aliases: [mi]
     updateitem:
-        description: 更新手持物品。
-        aliases: [upitem, itemup]
+        description: Update the item you are holding.
+        aliases: [upitem,itemup]
         permission: mmoitems.update
-
 permissions:
     mmoitems.admin:
-        description: 访问管理员命令。
+        description: Access to admin commands.
         default: op
     mmoitems.update:
-        description: 访问 /updateitem 命令。
+        description: Access to /updateitem.
         default: op
     mmoitems.edit.op:
-        description: 允许编辑 op 属性，如 commands。
+        description: Ability to edit op stats like commands.
         default: false
     mmoitems.bypass.item:
-        description: 绕过物品权限限制。
+        description: Bypasses item permission restriction.
         default: false
     mmoitems.bypass.ability:
-        description: 绕过技能权限限制。
+        description: Bypasses ability permission restriction.
         default: false
     mmoitems.bypass.class:
-        description: 绕过物品类别限制。
+        description: Bypasses item class restriction.
         default: false
     mmoitems.bypass.soulbound:
-        description: 绕过绑定限制。
+        description: Bypasses soulbound restriction.
         default: false
     mmoitems.bypass.level:
-        description: 绕过物品等级限制。
+        description: Bypasses item level restriction.
         default: false
     mmoitems.update-notify:
-        description: 接收新版本更新时的通知。
+        description: Receive a notification when a new update is available.
         default: op
     mmoitems.soulbound:
-        description: 允许使用 /soulbound 命令。
+        description: Allows to use /soulbound.
         default: op

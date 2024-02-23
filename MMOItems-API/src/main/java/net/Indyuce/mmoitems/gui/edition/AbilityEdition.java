@@ -1,6 +1,7 @@
 package net.Indyuce.mmoitems.gui.edition;
 
 import io.lumine.mythic.lib.MythicLib;
+import io.lumine.mythic.lib.UtilityMethods;
 import io.lumine.mythic.lib.api.item.ItemTag;
 import io.lumine.mythic.lib.api.util.AltChar;
 import io.lumine.mythic.lib.skill.trigger.TriggerType;
@@ -100,7 +101,7 @@ public class AbilityEdition extends EditionInventory {
 			for (String modifier : ability.getHandler().getModifiers()) {
 				ItemStack modifierItem = VersionMaterial.GRAY_DYE.toItem();
 				ItemMeta modifierItemMeta = modifierItem.getItemMeta();
-				modifierItemMeta.setDisplayName(ChatColor.GREEN + MMOUtils.caseOnWords(modifier.toLowerCase().replace("-", " ")));
+				modifierItemMeta.setDisplayName(ChatColor.GREEN + UtilityMethods.caseOnWords(modifier.toLowerCase().replace("-", " ")));
 				List<String> modifierItemLore = new ArrayList<>();
 				modifierItemLore.add("" + ChatColor.GRAY + ChatColor.ITALIC + "This is an ability modifier. Changing this");
 				modifierItemLore.add("" + ChatColor.GRAY + ChatColor.ITALIC + "value will slightly customize the ability.");
@@ -201,7 +202,7 @@ public class AbilityEdition extends EditionInventory {
 			if (getEditedSection().contains("ability." + configKey + "." + tag)) {
 				getEditedSection().set("ability." + configKey + "." + tag, null);
 				registerTemplateEdition();
-				player.sendMessage(MMOItems.plugin.getPrefix() + "Successfully reset " + ChatColor.GOLD + MMOUtils.caseOnWords(tag.replace("-", " "))
+				player.sendMessage(MMOItems.plugin.getPrefix() + "Successfully reset " + ChatColor.GOLD + UtilityMethods.caseOnWords(tag.replace("-", " "))
 						+ ChatColor.GRAY + ".");
 			}
 		}
